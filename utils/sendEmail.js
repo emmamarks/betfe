@@ -8,7 +8,6 @@ const sendEmail = (options) =>{
             pass: process.env.EMAIL_PASSWORD
         }
     })
-
     const mailOptions = {
         from: "decgds<onwardfrancis@yahoo.com>",
         to: options.to,
