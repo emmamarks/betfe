@@ -56,7 +56,7 @@ function Send({ history }) {
             <Link to="/"><button className="btn">Log In</button></Link>
         </form> <br /> <br />
         <small>
-            <Link to = "/">Home</Link>|   AboutUs|     info@cbt.com|    08133050899|     
+            <Link to = "/">Home</Link>|   AboutUs|   
             13, Ikate, Lekki Phase I, Lagos, Nigeria|   FAQ|    Privacy Policy|   Terms of Service| © Jacob 2023
         </small>
     </div>
