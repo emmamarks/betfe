@@ -493,7 +493,7 @@ exports.otp = async (req, res, next) => {
         else {
           return res
             .status(200)
-          .send({ message: "Password Changed successfully",});
+          .send({ message: "Click to change password",});
         }
       });
     }
