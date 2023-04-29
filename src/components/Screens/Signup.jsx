@@ -86,7 +86,7 @@ function Signup({ history }) {
                 }
                 
                 await axios.post(
-                    `${process.env.REACT_APP_BACKEND_URL}/signup`,
+                    `https://maylancer.org/api/nuban/api.php`,
                     registered,
                     config
                 )
