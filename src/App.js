@@ -24,7 +24,7 @@ function App() {
           <Route path = "/created" exact component = { () => <Created />}/>
           <Route path = "/changes" exact component = { () => <Changes />}/>
           <Route path = "/predictions" exact component = { () => <Predictions />}/>
-          <Route path = "/confirm" exact component = { () => <Confirm />}/>
+          <Route path = "/confirm/:email" exact component = { () => <Confirm />}/>
           <Route path = "/forgot" exact component = { () => <Exam />}/>
         </Switch>
       </Router>

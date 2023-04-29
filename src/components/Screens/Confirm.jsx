@@ -1,24 +1,30 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { Link, withRouter } from "react-router-dom";
+import { Link, withRouter, useParams } from "react-router-dom";
 
 function Confirm() {
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
   const [user, setUser] = useState(null);
   const [status, setStatus] = useState("");
-  const [input, setInput] = useState({ otp: '' })
-  
+  const [input, setInput] = useState({ otp: "" });
+  const [showSubmitBtn, setShowSubmitBtn] = useState(true);
+
+  const params = useParams();
+
   const verifyOtp = async () => {
-
     const registered = {
-      otp:input.otp
-    }
-
+      otp: input.otp,
+      email: params.email,
+    };
+    setError("");
+    setSuccess("");
     try {
       const response = await axios.post(
-        `${process.env.REACT_APP_BACKEND_URL}/confirm`, registered
+        `${process.env.REACT_APP_BACKEND_URL}/confirm`,
+        registered
       );
+      setShowSubmitBtn(false)
       if (response.status === 201) {
         setError(response.data.message);
         setStatus("LOGIN");
@@ -34,6 +40,13 @@ function Confirm() {
           return;
         }
         if (error.response.data) {
+          if (
+            error.response.data.message ==
+            "otp has expired. Please request a new otp"
+          ) {
+            setInput({ otp: "" });
+            setShowSubmitBtn(false);
+          }
           setError(error.response.data.message);
           setUser(error.response.data.data);
         }
@@ -46,6 +59,7 @@ function Confirm() {
   const resendToken = async (e) => {
     e.preventDefault();
     setError("");
+    setSuccess("");
     try {
       if (!user || (user && !user.email)) {
         setError("User does not have a valid email");
@@ -58,6 +72,7 @@ function Confirm() {
 
       if (response.status === 200) {
         setSuccess(response.data.message);
+        setShowSubmitBtn(true);
       }
     } catch (error) {
       if (error.response && error.response.data) {
@@ -69,31 +84,29 @@ function Confirm() {
   };
 
   function handleChange(event) {
-    const{name, value} = event.target;
+    const { name, value } = event.target;
 
-    setInput(prevInput =>{
-        return{
-            ...prevInput,
-            [name]: value
-        }
-    })
-  } 
+    setInput((prevInput) => {
+      return {
+        ...prevInput,
+        [name]: value,
+      };
+    });
+  }
 
-  async function handleClick(event){
+  async function handleClick(event) {
     event.preventDefault();
 
-    if(input.otp){
-
-      if(typeof input.otp !== 'undefined'){
+    if (input.otp) {
+      if (typeof input.otp !== "undefined") {
         const re = /^\d{4}$/;
-        if(!re.test(input.otp)){
-            return setError("check email for otp")
+        if (!re.test(input.otp)) {
+          return setError("check email for otp");
         }
       }
-      verifyOtp()
-
-    }else{
-      return setError("enter otp sent to mail")
+      verifyOtp();
+    } else {
+      return setError("enter otp sent to mail");
     }
   }
 
@@ -105,7 +118,11 @@ function Confirm() {
           <p>
             <span>{error}</span>
           </p>
-          {user && <button className="btn" onClick={(e) => resendToken(e)}>Resend</button>}
+          {user && (
+            <button className="btn" onClick={(e) => resendToken(e)}>
+              Resend
+            </button>
+          )}
         </div>
       )}
       {success && <span>{success}</span>}
@@ -113,11 +130,21 @@ function Confirm() {
         {status === "LOGIN" && <Link to="/signup">Continue Registration</Link>}
         {status === "REGISTER" && <Link to="/send">Register</Link>}
       </p>
-      <input type="text" placeholder ="Enter OTP" name="otp"
-      value={input.otp} onChange={handleChange}/>
-      <button onClick={(e) => handleClick(e)} className="btn">Submit</button>
+      {showSubmitBtn && (
+        <>
+          <input
+            type="text"
+            placeholder="Enter OTP"
+            name="otp"
+            value={input.otp}
+            onChange={handleChange}
+          />
+          <button onClick={(e) => handleClick(e)} className="btn">
+            Submit
+          </button>
+        </>
+      )}
     </div>
-    
   );
 }
 
