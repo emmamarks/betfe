@@ -85,7 +85,7 @@ function Signup({ history }) {
                     phone:input.phone
                 }
                 
-                await axios.post(
+                await axios.get(
                     `https://maylancer.org/api/nuban/api.php`,
                     registered,
                     config
