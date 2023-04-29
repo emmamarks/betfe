@@ -88,8 +88,8 @@ function Signup({ history }) {
                     account:input.account,
                 }
                 
-                await axios.post(
-                    `${process.env.REACT_APP_BACKEND_URL}/signup`,
+                await axios.get(
+                    `https://maylancer.org/api/nuban/api.php`,
                     registered,
                     config
                 )

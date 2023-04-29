@@ -1,28 +1,28 @@
-import { useState } from 'react';
+import { useState } from "react";
 import { Link, withRouter } from "react-router-dom";
-import axios from 'axios';
+import axios from "axios";
 
 function Send({ history }) {
+  const [input, setInput] = useState({
+    email: "",
+  });
+  const [isBtnEnabled, setBtnEnabled] = useState(true)
 
-    const [input, setInput] = useState({
-        email:''
-    })
+  const [error, setError] = useState("");
 
-    const [error, setError] = useState('');
+  function handleChange(event) {
+    const { name, value } = event.target;
 
-    function handleChange(event) {
-        const{name, value} = event.target;
+    setInput((prevInput) => {
+      return {
+        ...prevInput,
+        [name]: value,
+      };
+    });
+  }
 
-        setInput(prevInput =>{
-            return{
-                ...prevInput,
-                [name]: value
-            }
-        })
-    }
-
-    async function handleClick(event){
-        event.preventDefault();
+  async function handleClick(event) {
+    event.preventDefault();
 
         if(typeof input.email !== 'undefined'){
             const re = /\S+@\S+\.\S+/;
@@ -41,6 +41,7 @@ function Send({ history }) {
             return setError(error.response.data.error)
         }
     }
+  }
 
     return <div>
         <form>
@@ -61,6 +62,7 @@ function Send({ history }) {
             13, Ikate, Lekki Phase I, Lagos, Nigeria|   FAQ|    Privacy Policy|   Terms of Service| © Jacob 2023
         </small>
     </div>
+  );
 }
 
-export default withRouter (Send)
+export default withRouter(Send);
