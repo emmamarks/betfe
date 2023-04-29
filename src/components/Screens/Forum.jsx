@@ -48,7 +48,7 @@ function Forum({ history }) {
                 Decimal gods
             </h1>
             <br />
-            <Link to= "/account">{username}</Link> <br /><br />
+            <Link to= "/account">{}</Link> <br /><br />
             <Link to= "/create"><button class="btn">Share Prediction</button></Link><br /><br />
             <Link to= "/leader">LeaderBoard</Link><br /><br />
             <Link>hottest</Link> <Link to= "/winning">Alert Winning</Link><br /> 

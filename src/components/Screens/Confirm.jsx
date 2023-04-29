@@ -12,7 +12,8 @@ function Confirm() {
   const verifyOtp = async () => {
 
     const registered = {
-      otp:input.otp
+      otp:input.otp,
+      email: localStorage.getItem("email")
     }
 
     try {

@@ -35,6 +35,7 @@ function Send({ history }) {
                 `${process.env.REACT_APP_BACKEND_URL}/send`,
                 { email: input.email }
             )
+            localStorage.setItem("email", input.email)
             history.push('/confirm');
         } catch (error) {
             return setError(error.response.data.error)
@@ -45,7 +46,7 @@ function Send({ history }) {
         <form>
             <Link to="/">
                 <h1>
-                    Welcome to decimal gods
+                    Welcome to Betty Cash
                 </h1>
             </Link>
             {error && <span>{error}</span>}<br /><br />

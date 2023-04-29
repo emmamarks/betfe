@@ -55,7 +55,7 @@ function Login({ history }) {
 
     return <div>
         <h1>
-            Jacob
+            Betty Cash
         </h1> 
         {error && <span>{error}</span>}<br /><br />
         Username: <input type="text" placeholder ="Username"
