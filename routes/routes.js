@@ -14,7 +14,7 @@ const { signup,
     forgot,
     reset,
     otp,
-    resendPasswordOtp
+    resendPasswordOtp,
 } = require('../controllers/auth');
 
 const { userProfile } = require('../controllers/user');
@@ -34,8 +34,6 @@ router.route("/resend/").post(resendOtp);
 router.route('/forum').get(protect, userProfile);
 
 router.route('/send').post(send);
-
-router.route('/signup').post(signup);
 
 router.route('/signup').post(signup);
 

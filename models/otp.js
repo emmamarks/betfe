@@ -33,7 +33,32 @@ const otpSchema = new mongoose.Schema({
     isVerified:{
         type: Boolean,
         default: false,
+    },
+
+    account_name:{
+        type: String
+    },
+
+    account_number:{
+        type: String
+    },
+
+    bank_name:{
+        type: String
+    },
+
+    bank_id:{
+        type: String
+    },
+
+    bank_code:{
+        type: String
     }
 });
+
+otpSchema.methods.getSignedToken = function(){
+    return jwt.sign({ id: this._id }, process.env.JWT_SECRET,
+    { expiresIn: process.env.JWT_EXPIRE})
+}
 
 module.exports = mongoose.model('otp', otpSchema);

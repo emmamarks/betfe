@@ -9,34 +9,24 @@ const { genOTP } = require('../utils/sendotp');
 
 exports.signup = async (req, res, next) => {
   try {
-    const saltPassword = await bcrypt.genSalt(10);
-    const securePassword = await bcrypt.hash(req.body.password, saltPassword);
 
-    const user = new User({
+    const user = new Otp({
       ...req.body,
-      password: securePassword,
     });
 
-    const { username, email } = req.body;
+    const { bank_name, account_number } = req.body;
 
-    let userExists = await User.findOne({ username });
+    let userExists = await User.find({ bank_name, account_number });
     if (userExists) {
       return errorHandler(
-        { message: "username already taken", statusCode: 400 },
+        { message: "user already exist, log in", statusCode: 400 },
         res
       );
     }
 
-    let emailExists = await User.findOne({ email });
-    if (emailExists) {
-      return errorHandler(
-        { message: "Email already exists", statusCode: 400 },
-        res
-      );
-    }
     await user.save();
-    sendConfirmAccountEmail(user);
-    sendToken(user, 201, res);
+    //sendConfirmAccountEmail(user);
+    //sendToken(user, 201, res);
   } catch (error) {
     next(error);
   }
@@ -128,6 +118,7 @@ exports.confirm = async (req, res) => {
         }
       });
     }
+    //sendToken(user, 201, res);
   } catch (error) {
     next(error);
   }
@@ -559,10 +550,6 @@ exports.reset = async (req, res, next) => {
     return res.status(500).send(error.message);
   }
 };
-
-exports.banks = async (req, res, next) => {
-  
-}
 
 const sendToken = (user, statusCode, res) => {
 const token = user.getSignedToken();
