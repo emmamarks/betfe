@@ -6,6 +6,7 @@ function Send({ history }) {
   const [input, setInput] = useState({
     email: "",
   });
+  const [isBtnEnabled, setBtnEnabled] = useState(true)
 
   const [error, setError] = useState("");
 
@@ -29,12 +30,14 @@ function Send({ history }) {
         return setError("Please, provide a valid email");
       }
     }
+    setBtnEnabled(false)
     try {
       await axios.post(`${process.env.REACT_APP_BACKEND_URL}/send`, {
         email: input.email,
       });
       history.push(`/confirm/${input.email}`);
     } catch (error) {
+        setBtnEnabled(true)
       return setError(error.response.data.error);
     }
   }
@@ -60,7 +63,7 @@ function Send({ history }) {
         <button disabled className="btn">
           Register
         </button>
-        <button onClick={(e) => handleClick(e)} className="btn">
+        <button onClick={(e) => handleClick(e)} className="btn" disabled={!isBtnEnabled}>
           Get OTP
         </button>
         <br /> <br />
