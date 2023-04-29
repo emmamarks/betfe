@@ -36,7 +36,7 @@ function Forgot() {
 
         if(input.email){
             try {
-                const { data } = await axios.post(`${process.env.REACT_APP_BACKEND_URL}//forgotpassword`, { email }, config)
+                const { data } = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/forgotpassword`, { email }, config)
                 
                 setSuccess(data.data);
             } catch (error) {

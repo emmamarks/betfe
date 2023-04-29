@@ -111,7 +111,7 @@ function Create() {
       )}
       {success && <span>{success}</span>}
       <p>
-        {status === "LOGIN" && <Link to="/signup">Continue Registration</Link>}
+        {status === "LOGIN" && <Link to="/changepassword">Change password</Link>}
         {status === "REGISTER" && <Link to="/send">Register</Link>}
       </p>
       <input type="text" placeholder ="Enter OTP" name="otp"

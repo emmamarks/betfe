@@ -66,7 +66,7 @@ function Login({ history }) {
         <button onClick={(e) => handleClick(e)} className="btn">Login</button><br /> <br />
         <small>
         <Link to= "/send">New Here? Sign Up </Link><br /> <br />
-        <a href = "https://wa.link/xfb9r9" target = "blank">Message Author</a> © Jacob 2023 
+        © Jacob 2023 
         </small>
     </div>
 }
