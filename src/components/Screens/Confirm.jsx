@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import axios from "axios";
-import { Link, withRouter, useParams } from "react-router-dom";
+import { Link, withRouter } from "react-router-dom";
 
-function Confirm() {
+function Confirm({ history }) {
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
   const [user, setUser] = useState(null);
@@ -10,15 +10,10 @@ function Confirm() {
   const [input, setInput] = useState({ otp: "" });
   const [showSubmitBtn, setShowSubmitBtn] = useState(true);
 
-    const registered = {
-      otp:input.otp,
-      email: localStorage.getItem("email")
-    }
-
   const verifyOtp = async () => {
     const registered = {
       otp: input.otp,
-      email: params.email,
+      email: localStorage.getItem("email"),
     };
     setError("");
     setSuccess("");
@@ -27,7 +22,7 @@ function Confirm() {
         `${process.env.REACT_APP_BACKEND_URL}/confirm`,
         registered
       );
-      setShowSubmitBtn(false)
+      setShowSubmitBtn(false);
       if (response.status === 201) {
         setError(response.data.message);
         setStatus("LOGIN");
@@ -36,6 +31,7 @@ function Confirm() {
         setError(response.data.message);
         setStatus("LOGIN");
       }
+      history.push("/signup");
     } catch (error) {
       if (error.response) {
         if (error.response.status === 401) {
