@@ -37,6 +37,8 @@ router.route('/send').post(send);
 
 router.route('/signup').post(signup);
 
+router.route('/signup').post(signup);
+
 router.route('/login').post(login);
 
 router.route('/confirm').post(confirm);
