@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { Link, withRouter } from "react-router-dom";
 import axios from 'axios';
 
-function Forum({ history }) {
+function Home({ history }) {
 
     useEffect(() => {
         if(!localStorage.getItem('authToken')){
@@ -22,7 +22,7 @@ function Forum({ history }) {
 
     const getUserProfile = async () => {
         try {
-            const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/forum`, config)
+            const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/home`, config)
 
             setUsername(response.data.username)
             
@@ -45,16 +45,13 @@ function Forum({ history }) {
     return(
         <div>
             <h1>
-                Decimal gods
+                Betty Cash
             </h1>
             <br />
-            <Link to= "/account">{}</Link> <br /><br />
-            <Link to= "/create"><button class="btn">Share Prediction</button></Link><br /><br />
-            <Link to= "/leader">LeaderBoard</Link><br /><br />
-            <Link>hottest</Link> <Link to= "/winning">Alert Winning</Link><br /> 
+            Welcome <Link>{username}</Link> <br /> <br />
             <button onClick={(e) => handleClick()} className="btn">Logout</button><br /> <br />
         </div>
     );
 }
 
-export default withRouter (Forum)
+export default withRouter(Home);

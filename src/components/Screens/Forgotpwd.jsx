@@ -5,6 +5,7 @@ import axios from 'axios';
 function Exam({ history }){
 
     const [error, setError] = useState('');
+    const [status, setStatus] = useState("");
     const [success, setSuccess] = useState('');
 
     const [input, setInput] = useState({
@@ -42,18 +43,36 @@ function Exam({ history }){
                 //setSuccess(data.data);
                 history.push('/otp')
             } catch (error) {
-                return setError(error.response)
+                if (error.response.status === 400) {
+                    setError(error.response.data.message);
+                    setStatus("CONFIRM");
+                    return setError(error.response.data.error)
+                }
+                if (error.response.status === 404) {
+                    setError(error.response.data.message);
+                    setStatus("REGISTER");
+                    return setError(error.response.data.error)
+                }
+                if (error.response.status === 401) {
+                    setError(error.response.data.message);
+                    setStatus("REGISTER");
+                    return setError(error.response.data.error)
+                }
             }
         }else{
             return setError("Enter your email")
         }
-        
     }
 
     return <div>
         <h3>Forgot Password</h3>
         {error && <span>{error}</span>} <br />
         {success && <span id='green'>{success}</span>}
+        <p>
+        {status === "CONFIRM" && <Link to="/confirm">Confirm Account</Link>}
+        {status === "REGISTER" && <Link to="/send">Register Here</Link>}
+        {status === "FORGOT" && <Link to="/otp">Enter OTP</Link>}
+        </p>
         <div>
             <p>Please, Enter the email address you registered with</p>
             Email:<input type="email" placeholder="Email"

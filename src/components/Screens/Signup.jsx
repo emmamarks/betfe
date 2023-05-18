@@ -8,7 +8,7 @@ function Signup({ history }) {
   }, []);
   useEffect(() => {
     if (localStorage.getItem("authtoken")) {
-      history.push("/forum");
+      history.push("/home");
     }
   }, [history]);
 
@@ -20,6 +20,7 @@ function Signup({ history }) {
     bank: "",
     account: "",
     email: localStorage.getItem("email"),
+    username: "",
     password: ""
   });
 
@@ -60,7 +61,7 @@ function Signup({ history }) {
 
   useEffect(() => {
     if (input.account.length != 10) {
-      setError("account must contain 10 digits");
+      setError("account number must contain 10 digits");
     } else {
       setError("");
     }
@@ -72,7 +73,21 @@ function Signup({ history }) {
   async function handleClick(event) {
     event.preventDefault();
 
-    if (input.bank && input.account) {
+    if (input.bank && input.account && input.username && input.password) {
+
+      if(typeof input.username !== 'undefined'){
+        const re = /^\S*$/;
+        if(input.username.length < 5 || !re.test(input.username)){
+            return setError("Username must contain at least 5 characters")
+        }
+    }
+
+    if(typeof input.password !== 'undefined'){
+        if(input.password.length < 5){
+            return setError("Password must contain at least 6 characters")
+        }
+    }
+
       try {
         const registered = {
           account: input.account,
@@ -81,15 +96,16 @@ function Signup({ history }) {
           bankId: bank.id,
           accountName,
           bankName: bank.name,
+          username: input.username,
           password: input.password
         };
 
-        await axios.post(
+        const resp = await axios.post(
           `${process.env.REACT_APP_BACKEND_URL}/signup`,
           registered
         );
-
-        history.push("/");
+        localStorage.setItem('authToken', resp.data.token)
+        //history.push("/home");
       } catch (error) {
         setError(error.response.data.error);
       }
@@ -119,23 +135,39 @@ function Signup({ history }) {
   return (
     <div>
       <form>
-        <Link to="/">
-          <h1>Welcome to Betty Cash</h1>
-        </Link>
+          <h1>Betty Cash</h1>
         {error && <span>{error}</span>}
         <br />
         <br />
         Bank:{" "}
+        {/* <input type="text"
+          list="bank"
+          name="bank"
+          autoComplete="on"
+          placeholder="Choose Bank"
+          value={text} onChange={onChange}
+        />
+        <datalist
+          id="bank"
+          name="bank"
+          onChange={handleChange}
+        >
+          <select autocomplete="on" name="bank" onChange={handleChange}>
+            {banks.map((bank) => (
+              <option value={bank.name}>{bank.name}</option>
+            ))}
+          </select> 
+        </datalist>
+        <br /><br /> */}
         <select autocomplete="on" name="bank" onChange={handleChange}>
           {banks.map((bank) => (
             <option value={bank.code}>{bank.name}</option>
           ))}
         </select>
-        <br /> <br />
+        <br /><br />
         Account Number:{" "}
         <input
           type="text"
-          placeholder="Choose account"
           onKeyPress={validate}
           name="account"
           onChange={handleChange}
@@ -143,26 +175,31 @@ function Signup({ history }) {
         />
         <br /> <br />
         Account Name: {accountName} <br /> <br />
-        <input
+        Username: <input
           type="text"
+          placeholder="Choose Username"
+          name="username"
+          onChange={handleChange}
+          value={input.username}
+        /><br /><br />
+        Password:<input
+          type="password"
           placeholder="Enter password"
           name="password"
           onChange={handleChange}
           value={input.password}
         />
         <br /> <br />
-        <Link to="/">
-          <button className="btn">Go Back</button>
-        </Link>
         <button onClick={(e) => handleClick(e)} className="btn">
           Register
         </button>
       </form>{" "}
-      <br /> <br />
+      <br />
+      <div>
+        
+      </div>
       <small>
-        <Link to="/">Home</Link>| AboutUs| info@cbt.com| 08133050899| 13, Ikate,
-        Lekki Phase I, Lagos, Nigeria| FAQ| Privacy Policy| Terms of Service| ©
-        Jacob 2021
+        © Jacob 2023
       </small>
     </div>
   );

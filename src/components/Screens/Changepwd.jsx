@@ -3,7 +3,7 @@ import axios from "axios";
 import { Link, useParams } from "react-router-dom";
 
 function Leader() {
-    const params = useParams();
+  const params = useParams();
   const [input, setInput] = useState({
     password: "",
     confirmPassword: "",
@@ -33,29 +33,34 @@ function Leader() {
     };
 
     if (input.password && input.confirmPassword) {
-        if (input.password !== input.confirmPassword) {
-            input.password("");
-            input.confirmPassword("");
-            setTimeout(() => {
-              setError("");
-            }, 5000);
-            return setError("Passwords do not match");
-          }
+      if(typeof input.password !== 'undefined'){
+        if(input.password.length < 5){
+            return setError("Password must contain at least 6 characters")
+        }
+      }
+      if (input.password !== input.confirmPassword) {
+          // input.password("");
+          // input.confirmPassword("");
+          setTimeout(() => {
+            setError("");
+          }, 5000);
+          return setError("Passwords do not match");
+      }
       
-          try {
-            const response = await axios.put(
-              `${process.env.REACT_APP_BACKEND_URL}/reset`,
-              { password: input.password },
-              config
-            );
-      
-            setSuccess(response.data.data);
-          } catch (error) {
-            setError(error.response.data);
-            setTimeout(() => {
-              setError("");
-            }, 5000);
-          }
+      try {
+        const response = await axios.post(
+          `${process.env.REACT_APP_BACKEND_URL}/reset`,
+          { password: input.password },
+          config
+        );
+  
+        setSuccess(response);
+      } catch (error) {
+        setError(error.response.data.error);
+        setTimeout(() => {
+          setError("");
+        }, 5000);
+      }
     }else{
         return setError("Enter new password")
     }
@@ -73,7 +78,7 @@ function Leader() {
           <Link to="/">Login</Link>
         </span>
       )}<br /><br />
-        Password:<input
+        New Password:<input
         type="password"
         placeholder="Enter New Password"
         name="password"
@@ -90,7 +95,7 @@ function Leader() {
         value={input.confirmPassword}
       />
       <br /> <br />
-      <button onClick={(e) => handleClick(e)} className="btn">
+      <button disabled onClick={(e) => handleClick(e)} className="btn">
         Change Password
       </button>
     </div>

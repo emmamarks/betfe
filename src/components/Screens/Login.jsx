@@ -4,11 +4,11 @@ import axios from 'axios';
 
 function Login({ history }) {
  
-    useEffect(() =>{
-        if(localStorage.getItem('authToken')){
-            history.push('/forum');
-        }
-    }, [ history ]);
+    // useEffect(() =>{
+    //     if(localStorage.getItem('authToken')){
+    //         history.push('/home');
+    //     }
+    // }, [ history ]);
     
     const [input, setInput] = useState({
         username:'',
@@ -43,7 +43,7 @@ function Login({ history }) {
             
                 localStorage.setItem('authToken', response.data.token);
                             
-                history.push('/forum');
+                history.push('/home');
     
             }else{
                 return setError("Username & Password required")
@@ -62,7 +62,7 @@ function Login({ history }) {
         name="username" id="username" value={input.username} onChange={handleChange} /><br /><br />
         Password: <input type="password" placeholder ="Enter Password"
         name="password" id="password" value={input.password} onChange={handleChange} /><br /> <br />
-        <small><Link to= "/forgotpassword">Forgot Password ?</Link></small><br /> <br />
+        <small><Link to= "/forgot">Forgot Password ?</Link></small><br /> <br />
         <button onClick={(e) => handleClick(e)} className="btn">Login</button><br /> <br />
         <small>
         <Link to= "/send">New Here? Sign Up </Link><br /> <br />
