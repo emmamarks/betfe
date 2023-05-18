@@ -105,7 +105,7 @@ function Signup({ history }) {
           registered
         );
         localStorage.setItem('authToken', resp.data.token)
-        //history.push("/home");
+        history.push("/home");
       } catch (error) {
         setError(error.response.data.error);
       }
