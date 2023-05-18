@@ -7,7 +7,7 @@ function Send({ history }) {
     email: "",
   });
   const [isBtnEnabled, setBtnEnabled] = useState(true);
-
+  const [status, setStatus] = useState("");
   const [error, setError] = useState("");
 
   function handleChange(event) {
@@ -37,6 +37,10 @@ function Send({ history }) {
       localStorage.setItem("email", input.email);
       history.push("/confirm");
     } catch (error) {
+      if (error.response.status === 400) {
+        setError(error.response.data.message);
+        setStatus("CONFIRM");;
+      }
       return setError(error.response.data.error);
     }
   }
@@ -49,7 +53,9 @@ function Send({ history }) {
         </Link>
         {error && <span>{error}</span>}
         <br />
-        <br />
+        <p>
+        {status === "CONFIRM" && <Link to="/confirm">Confirm Account</Link>}
+        </p>
         Email:{" "}
         <input
           type="email"
