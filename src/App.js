@@ -11,9 +11,8 @@ function App() {
         <Switch>
           <Route path = "/" exact component = { () => <Login />}/>
           <Route path = "/send" exact component = { () => <Send />}/>
-          <Route path = "/changepassword" exact component = { () => <Changepwd />}/>
           <Route path = "/signup" exact component = { () => <Signup />}/>
-          <Route path = "/otp" exact component = { () => <Forgototp />}/>
+          <Route path = "/reset" exact component = { () => <Changepwd />}/>
           <Route path = "/confirm" exact component = { () => <Confirmotp />}/>
           <Route path = "/forgot" exact component = { () => <Forgotpwd />}/>
           <Route path = "/home" exact component = { () => <Home />}/>

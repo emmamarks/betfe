@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Link, withRouter } from "react-router-dom";
+import { withRouter } from "react-router-dom";
 import axios from "axios";
 
 function Signup({ history }) {
@@ -21,7 +21,8 @@ function Signup({ history }) {
     account: "",
     email: localStorage.getItem("email"),
     username: "",
-    password: ""
+    password: "",
+    confirmPassword:'',
   });
 
   const [error, setError] = useState("");
@@ -73,7 +74,7 @@ function Signup({ history }) {
   async function handleClick(event) {
     event.preventDefault();
 
-    if (input.bank && input.account && input.username && input.password) {
+    if (input.bank && input.account && input.username && input.password && input.confirmPassword) {
 
       if(typeof input.username !== 'undefined'){
         const re = /^\S*$/;
@@ -86,6 +87,10 @@ function Signup({ history }) {
         if(input.password.length < 5){
             return setError("Password must contain at least 6 characters")
         }
+    }
+
+    if(input.password !== input.confirmPassword){
+      return setError("Passwords do not match")
     }
 
       try {
@@ -105,7 +110,7 @@ function Signup({ history }) {
           registered
         );
         localStorage.setItem('authToken', resp.data.token)
-        //history.push("/home");
+        history.push("/home");
       } catch (error) {
         setError(error.response.data.error);
       }
@@ -188,6 +193,14 @@ function Signup({ history }) {
           name="password"
           onChange={handleChange}
           value={input.password}
+        />
+        <br /> <br />
+        Confirm Password: <input
+          type="password"
+          placeholder="Confirm Password"
+          name="confirmPassword"
+          onChange={handleChange}
+          value={input.confirmPassword}
         />
         <br /> <br />
         <button onClick={(e) => handleClick(e)} className="btn">

@@ -34,14 +34,13 @@ function Exam({ history }){
                     return setError("Please, provide a valid email")
                 }
             }
-
             try {
                 const registered = {
                     email:input.email
                 }
                 await axios.post(`${process.env.REACT_APP_BACKEND_URL}/forgot`, registered)
-                //setSuccess(data.data);
-                history.push('/otp')
+                //localStorage.setItem('email')
+                history.push('/reset')
             } catch (error) {
                 if (error.response.status === 400) {
                     setError(error.response.data.message);

@@ -39,6 +39,7 @@ function Home({ history }) {
 
     function handleClick(){
         localStorage.removeItem('authToken');
+        localStorage.removeItem('email');
         history.push('/')
     }
 
