@@ -4,11 +4,11 @@ import axios from 'axios';
 
 function Login({ history }) {
  
-    useEffect(() =>{
-        if(localStorage.getItem('authToken')){
-            history.push('/home');
-        }
-    }, [ history ]);
+    // useEffect(() =>{
+    //     if(localStorage.getItem('authToken')){
+    //         history.push('/home');
+    //     }
+    // }, [ history ]);
     
     const [input, setInput] = useState({
         username:'',

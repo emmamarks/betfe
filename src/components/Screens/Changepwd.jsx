@@ -1,19 +1,90 @@
-import React, { useState } from "react";
-import axios from "axios";
-import { Link, useParams } from "react-router-dom";
+import { useState } from 'react';
+import { Link, withRouter } from "react-router-dom";
+import axios from 'axios';
 
-function Leader() {
-  const params = useParams();
+function Create({ history }) {
+  const [error, setError] = useState("");
+  const [success, setSuccess] = useState("");
+  const [user, setUser] = useState(null);
+  const [status, setStatus] = useState("");
+  const [showSubmitBtn, setShowSubmitBtn] = useState(true);
   const [input, setInput] = useState({
+    resetOtp: "",
     password: "",
     confirmPassword: "",
   });
 
-  const [error, setError] = useState("");
-  const [success, setSuccess] = useState("");
+  const verifyOtp = async () => {
+    const registered = {
+      resetOtp: input.resetOtp,
+      email: localStorage.getItem("email"),
+      password: input.password,
+    };
+    setError("");
+    setSuccess("");
+    try {
+      const response = await axios.post(
+        `${process.env.REACT_APP_BACKEND_URL}/reset`,
+        registered
+      );
+      setShowSubmitBtn(false);
+      if (response.status === 200) {
+        setError(response.data.message);
+        setStatus("LOGIN");
+      }
+      //history.push("/");
+    } catch (error) {
+      if (error.response) {
+        if (error.response.status === 401) {
+          setError(error.response.data.message);
+          return;
+        }
+        if (error.response.data) {
+          if (
+            error.response.data.message ==
+            "otp has expired. Please request a new otp"
+          ) {
+            setInput({ resetOtp: "" });
+            setShowSubmitBtn(false);
+          }
+          setError(error.response.data.message);
+          setUser(error.response.data.data);
+        }
+      } else {
+        setError(error.message);
+      }
+    }
+  };
 
-  function handleChange(e) {
-    const { name, value } = e.target;
+  const resendToken = async (e) => {
+    e.preventDefault();
+    setError("");
+    setSuccess("");
+    try {
+      if (!user || (user && !user.email)) {
+        setError("User does not have a valid email");
+        return;
+      }
+      const response = await axios.post(
+        `${process.env.REACT_APP_BACKEND_URL}/resendotp`,
+        { email: user.email }
+      );
+
+      if (response.status === 200) {
+        setSuccess(response.data.message);
+        setShowSubmitBtn(true);
+      }
+    } catch (error) {
+      if (error.response && error.response.data) {
+        setError(error.response.data.message);
+      } else {
+        setError(error.message);
+      }
+    }
+  };
+
+  function handleChange(event) {
+    const { name, value } = event.target;
 
     setInput((prevInput) => {
       return {
@@ -23,82 +94,89 @@ function Leader() {
     });
   }
 
-  async function handleClick(e) {
-    e.preventDefault();
+  async function handleClick(event) {
+    event.preventDefault();
 
-    const config = {
-      header: {
-        "Content-Type": "application/json",
-      },
-    };
-
-    if (input.password && input.confirmPassword) {
+    if(input.resetOtp && input.password && input.confirmPassword){
       if(typeof input.password !== 'undefined'){
         if(input.password.length < 5){
             return setError("Password must contain at least 6 characters")
         }
       }
-      if (input.password !== input.confirmPassword) {
-          // input.password("");
-          // input.confirmPassword("");
-          setTimeout(() => {
-            setError("");
-          }, 5000);
-          return setError("Passwords do not match");
-      }
-      
-      try {
-        const response = await axios.post(
-          `${process.env.REACT_APP_BACKEND_URL}/reset`,
-          { password: input.password },
-          config
-        );
   
-        setSuccess(response);
-      } catch (error) {
-        setError(error.response.data.error);
-        setTimeout(() => {
-          setError("");
-        }, 5000);
+      if(input.password !== input.confirmPassword){
+        return setError("Passwords do not match")
+      }
+  
+      if (input.resetOtp) {
+        if (typeof input.resetOtp !== "undefined") {
+          const re = /^\d{4}$/;
+          if (!re.test(input.resetOtp)) {
+            return setError("check email for otp");
+          }
+        }
+        verifyOtp();
+      } else {
+        return setError("enter otp sent to mail");
       }
     }else{
-        return setError("Enter new password")
+      return setError("Please enter all fields")
     }
-
-    
   }
 
   return (
     <div>
-      <h3> Reset Password</h3>
-      {error && <span>{error}</span>}
-      {success && (
-        <span>
-          {success}
-          <Link to="/">Login</Link>
-        </span>
-      )}<br /><br />
-        New Password:<input
-        type="password"
-        placeholder="Enter New Password"
-        name="password"
-        onChange={handleChange}
-        value={input.password}
-      />
-      <br /> <br />
-      <label htmlFor="confirmPassword">Confirm Password:</label>
-      <input
-        type="password"
-        placeholder="Confirm New Password"
-        name="confirmPassword"
-        onChange={handleChange}
-        value={input.confirmPassword}
-      />
-      <br /> <br />
-      <button disabled onClick={(e) => handleClick(e)} className="btn">
-        Change Password
-      </button>
+      <h3> Account Verification</h3>
+      {error && (
+        <div>
+          <p>
+            <span>{error}</span>
+          </p>
+          {user && (
+            <button className="btn" onClick={(e) => resendToken(e)}>
+              Resend
+            </button>
+          )}
+        </div>
+      )}
+      {success && <span>{success}</span>}
+      <p>
+        {status === "LOGIN" && <Link to="/">Login</Link>}
+        {status === "REGISTER" && <Link to="/send">Register</Link>}
+      </p>
+      {showSubmitBtn && (
+        <>
+            New Password:<input
+            type="password"
+            placeholder="Enter New Password"
+            name="password"
+            onChange={handleChange}
+            value={input.password}
+          />
+          <br /> <br />
+          <label htmlFor="confirmPassword">Confirm Password:</label>
+          <input
+            type="password"
+            placeholder="Confirm New Password"
+            name="confirmPassword"
+            onChange={handleChange}
+            value={input.confirmPassword}
+          />
+          <br /> <br />
+          Enter OTP:<input
+            type="text"
+            placeholder="Enter OTP"
+            name="resetOtp"
+            value={input.resetOtp}
+            onChange={handleChange}
+          /><br /><br />
+          <button onClick={(e) => handleClick(e)} className="btn">
+            Change Password
+          </button>
+        </>
+      )}
     </div>
   );
 }
-export default Leader
+
+export default withRouter (Create)
