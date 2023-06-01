@@ -2,7 +2,7 @@ import React from 'react';
 
 import { BrowserRouter as Router, Route, Switch} from 'react-router-dom';
 
-import { Login, Send, Changepwd, Signup, Forgototp, Confirmotp, Forgotpwd, Home } from "./components";
+import { Login, Send, Changepwd, Signup, Created, Confirmotp, Forgotpwd, Home } from "./components";
 
 function App() {
   return (
@@ -16,6 +16,7 @@ function App() {
           <Route path = "/confirm" exact component = { () => <Confirmotp />}/>
           <Route path = "/forgot" exact component = { () => <Forgotpwd />}/>
           <Route path = "/home" exact component = { () => <Home />}/>
+          <Route path = "/created" exact component = { () => <Created />}/>
         </Switch>
       </Router>
     </div>
