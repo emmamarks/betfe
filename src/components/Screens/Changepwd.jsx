@@ -9,15 +9,14 @@ function Create({ history }) {
   const [status, setStatus] = useState("");
   const [showSubmitBtn, setShowSubmitBtn] = useState(true);
   const [input, setInput] = useState({
+    password: "secret",
+    confirmPassword: "secret",
     resetOtp: "",
-    password: "",
-    confirmPassword: "",
   });
 
   const verifyOtp = async () => {
     const registered = {
       resetOtp: input.resetOtp,
-      email: localStorage.getItem("email"),
       password: input.password,
     };
     setError("");
@@ -29,7 +28,7 @@ function Create({ history }) {
       );
       setShowSubmitBtn(false);
       if (response.status === 200) {
-        setError(response.data.message);
+        //setError(response.data.message);
         setStatus("LOGIN");
       }
       //history.push("/");
@@ -142,7 +141,6 @@ function Create({ history }) {
       {success && <span>{success}</span>}
       <p>
         {status === "LOGIN" && <Link to="/">Login</Link>}
-        {status === "REGISTER" && <Link to="/send">Register</Link>}
       </p>
       {showSubmitBtn && (
         <>

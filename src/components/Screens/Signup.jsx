@@ -81,17 +81,17 @@ function Signup({ history }) {
         if(input.username.length < 5 || !re.test(input.username)){
             return setError("Username must contain at least 5 characters")
         }
-    }
+      }
 
-    if(typeof input.password !== 'undefined'){
-        if(input.password.length < 5){
-            return setError("Password must contain at least 6 characters")
-        }
-    }
+      if(typeof input.password !== 'undefined'){
+          if(input.password.length < 5){
+              return setError("Password must contain at least 6 characters")
+          }
+      }
 
-    if(input.password !== input.confirmPassword){
-      return setError("Passwords do not match")
-    }
+      if(input.password !== input.confirmPassword){
+        return setError("Passwords do not match")
+      }
 
       try {
         const registered = {
@@ -137,25 +137,29 @@ function Signup({ history }) {
     }
   }
 
+  const [text, setText] = useState('');
+  const onChange = (event) => {
+    setText(event.target.value);
+  }
+
   return (
     <div>
       <form>
           <h1>Betty Cash</h1>
         {error && <span>{error}</span>}
-        <br />
-        <br />
+        <br /><br />
         Bank:{" "}
-        {/* <input type="text"
+         <input type="list"
           list="bank"
           name="bank"
           autoComplete="on"
           placeholder="Choose Bank"
           value={text} onChange={onChange}
-        />
+        /><br /><br />
         <datalist
           id="bank"
           name="bank"
-          onChange={handleChange}
+          onChange={onChange}
         >
           <select autocomplete="on" name="bank" onChange={handleChange}>
             {banks.map((bank) => (
@@ -163,7 +167,7 @@ function Signup({ history }) {
             ))}
           </select> 
         </datalist>
-        <br /><br /> */}
+        <br /><br /> 
         <select autocomplete="on" name="bank" onChange={handleChange}>
           {banks.map((bank) => (
             <option value={bank.code}>{bank.name}</option>

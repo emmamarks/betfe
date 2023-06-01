@@ -17,7 +17,6 @@ function Login({ history }) {
 
     const [error, setError] = useState('');
 
-
     function handleChange(event) {
         const{name, value} = event.target;
 
@@ -29,7 +28,7 @@ function Login({ history }) {
         })
     }
 
-    async function handleClick(event){
+    async function handleSubmit(event){
         event.preventDefault();
         try {    
             if(input.username && input.password){
@@ -58,12 +57,14 @@ function Login({ history }) {
             Betty Cash
         </h1> 
         {error && <span>{error}</span>}<br /><br />
-        Username: <input type="text" placeholder ="Username"
-        name="username" id="username" value={input.username} onChange={handleChange} /><br /><br />
-        Password: <input type="password" placeholder ="Enter Password"
-        name="password" id="password" value={input.password} onChange={handleChange} /><br /> <br />
-        <small><Link to= "/forgot">Forgot Password ?</Link></small><br /> <br />
-        <button onClick={(e) => handleClick(e)} className="btn">Login</button><br /> <br />
+        <form onSubmit={(e) => handleSubmit(e)}>
+            Username: <input type="text" placeholder ="Username"
+            name="username" id="username" value={input.username} onChange={handleChange} /><br /><br />
+            Password: <input type="password" placeholder ="Enter Password"
+            name="password" id="password" value={input.password} onChange={handleChange} /><br /> <br />
+            <small><Link to= "/forgot">Forgot Password ?</Link></small><br /> <br />
+            <button type="submit" className="btn">Login</button>
+        </form><br />
         <small>
         <Link to= "/send">New Here? Sign Up </Link><br /> <br />
         © Jacob 2023 
