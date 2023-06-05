@@ -167,13 +167,13 @@ function Signup({ history }) {
             ))}
           </select> 
         </datalist>
-        <br /><br /> 
-        <select autocomplete="on" name="bank" onChange={handleChange}>
-          {banks.map((bank) => (
-            <option value={bank.code}>{bank.name}</option>
-          ))}
-        </select>
-        <br /><br />
+//         <br /><br /> 
+//         <select autocomplete="on" name="bank" onChange={handleChange}>
+//           {banks.map((bank) => (
+//             <option value={bank.code}>{bank.name}</option>
+//           ))}
+//         </select>
+//         <br /><br />
         Account Number:{" "}
         <input
           type="text"
