@@ -9,8 +9,8 @@ function Create({ history }) {
   const [status, setStatus] = useState("");
   const [showSubmitBtn, setShowSubmitBtn] = useState(true);
   const [input, setInput] = useState({
-    password: "secret",
-    confirmPassword: "secret",
+    password: "",
+    confirmPassword: "",
     resetOtp: "",
   });
 
