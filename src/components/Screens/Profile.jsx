@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { Link, withRouter } from "react-router-dom";
+import { Link, useParams, withRouter } from "react-router-dom";
 import axios from 'axios';
 
-function Created ({ history }) {
+function Profile ({ history }) {
     const [predictions, setPredictions] = useState([]);
-    const [error, setError] = useState("");
+    const params = useParams();
 
     useEffect(() => {
         getPredictions()
@@ -21,18 +21,16 @@ function Created ({ history }) {
 
     const getPredictions = async () => {
         try {
-            const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/created`, config)
-
+            const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/profile`, config)
+            
+            console.log(response.data.result);
             setPredictions(response.data.result)
-        
 
         } catch (error) {
-            localStorage.removeItem('authToken');
-            history.push('/')
+            // localStorage.removeItem('authToken');
+            // history.push('/')
         }        
     }
-
-    
 
     return(
         <div>
@@ -43,8 +41,7 @@ function Created ({ history }) {
             {predictions.map((prediction, index) =>{
                 return(
                     <div key={index}>
-                        <Link to= "/profile">{prediction.author.username}</Link>
-                        | {prediction.description} | {prediction.amount} 
+                        {prediction.author.username} | {prediction.description} | {prediction.amount} 
                     </div>
                 )
             })}
@@ -52,4 +49,4 @@ function Created ({ history }) {
     )
 }
 
-export default withRouter (Created)
+export default withRouter (Profile)
