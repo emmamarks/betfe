@@ -149,31 +149,30 @@ function Signup({ history }) {
         {error && <span>{error}</span>}
         <br /><br />
         Bank:{" "}
-         <input type="list"
+         {/* <input type="list"
           list="bank"
           name="bank"
           autoComplete="on"
           placeholder="Choose Bank"
           value={text} onChange={onChange}
-        /><br /><br />
-//         <datalist
-//           id="bank"
-//           name="bank"
-//           onChange={onChange}
-//         >
-//           <select autocomplete="on" name="bank" onChange={handleChange}>
-//             {banks.map((bank) => (
-//               <option value={bank.name}>{bank.name}</option>
-//             ))}
-//           </select> 
-//         </datalist>
-//         <br /><br /> 
-//         <select autocomplete="on" name="bank" onChange={handleChange}>
-//           {banks.map((bank) => (
-//             <option value={bank.code}>{bank.name}</option>
-//           ))}
-//         </select>
-//         <br /><br />
+        /><br /><br /> */}
+        {/* <datalist
+          id="bank"
+          name="bank"
+          onChange={onChange}
+        >
+          <select autocomplete="on" name="bank" onChange={handleChange}>
+            {banks.map((bank) => (
+              <option value={bank.name}>{bank.name}</option>
+            ))}
+          </select> 
+        </datalist> */}
+        <select autocomplete="on" name="bank" onChange={handleChange}>
+          {banks.map((bank) => (
+            <option value={bank.code}>{bank.name}</option>
+          ))}
+        </select>
+        <br /><br />
         Account Number:{" "}
         <input
           type="text"
