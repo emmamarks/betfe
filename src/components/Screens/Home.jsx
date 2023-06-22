@@ -61,8 +61,10 @@ function Home({ history }) {
 
       setUsername(response.data.username);
     } catch (error) {
-      localStorage.removeItem("authToken");
-      history.push("/");
+      if (error.response?.status === 401) {
+        localStorage.clear();
+        history.push("/");
+      }
     }
   };
 
@@ -106,9 +108,15 @@ function Home({ history }) {
         registered,
         config
       );
+
       history.push(`/details/${res.data.data._id}`);
     } catch (error) {
+      console.log(error.response);
       setError(error.response.data.error);
+      if (error.response?.status === 401) {
+        localStorage.clear();
+        history.push("/");
+      }
     }
   }
 
@@ -127,6 +135,10 @@ function Home({ history }) {
       );
     } catch (error) {
       setError(error.response.data.error);
+      if (error.response?.status === 401) {
+        localStorage.clear();
+        history.push("/");
+      }
     }
   }
 
