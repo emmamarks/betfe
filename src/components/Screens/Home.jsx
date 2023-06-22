@@ -10,10 +10,24 @@ function Home({ history }) {
         }
     })
 
+    const [isShown, setIsShown] = useState(false);
+
+    const show = event => {
+        setIsShown(current => !current);
+    };
+
+    function Box() {
+        return (
+          <div>
+          </div>
+        );
+    }
+
     const [input, setInput] = useState({
         description: "",
         amount: "",
         time: "",
+        ticket: ""
     })
     const [error, setError] = useState("");
     const [username, setUsername] = useState('');
@@ -58,7 +72,23 @@ function Home({ history }) {
         getUserProfile()
     }, [])
 
+    function validate(evt) {
+        var theEvent = evt || window.event;
     
+        // Handle paste
+        if (theEvent.type === "paste") {
+          key = theEvent.clipboardData.getData("text/plain");
+        } else {
+          // Handle key press
+          var key = theEvent.keyCode || theEvent.which;
+          key = String.fromCharCode(key);
+        }
+        var regex = /[0-9]|\./;
+        if (!regex.test(key)) {
+          theEvent.returnValue = false;
+          if (theEvent.preventDefault) theEvent.preventDefault();
+        }
+    }
 
     async function handleSubmit(event) {
         event.preventDefault();
@@ -84,6 +114,24 @@ function Home({ history }) {
         }
     }
 
+    async function handleBet(event){
+        event.preventDefault();
+        if (input.ticket) {
+        } else {
+            return setError("Enter Valid Bet Code");
+        }
+
+        try {
+            
+            await axios.post(
+                `${process.env.REACT_APP_BACKEND_URL}/ticket`,
+                { ticket: input.ticket }, config
+            );
+        } catch (error) {
+            setError(error.response.data.error);
+        }
+    }
+
     function handleClick(){
         localStorage.removeItem('authToken');
         localStorage.removeItem('email');
@@ -98,28 +146,42 @@ function Home({ history }) {
             <br />
             {error && <span>{error}</span>}<br /> <br />
             Welcome <Link>{username}</Link><br /> <br />
-            Description: <input
-                type="text"
-                placeholder="Bet Description"
-                name="description"
-                onChange={handleChange}
-                value={input.description}
-            /><br /><br />
-            Amount: <input
-                type="text"
-                placeholder="Enter Amount (₦)"
-                name="amount"
-                onChange={handleNumChange}
-                value={new Intl.NumberFormat('en-NG', {
-                }).format(finalAmount)}
-            /><br /><br />
-             Due Date/Time: <input
-                type="date"
-                name="time"
-                onChange={handleChange}
-                value={input.time}
-            /><br /><br />
-            <button onClick={(e) => handleSubmit(e)} className="btn">Create Bet</button> <br /> <br />
+            <form onSubmit={(e) => handleBet(e)}>
+                Bet Code: <input type="text" placeholder ="Caps Only"
+                name="ticket" id="ticket" value={input.ticket} onChange={handleChange} /><br /><br />
+                <button type="submit" className="btn">View</button>
+            </form><br />
+            <label onClick={show} className="btn" htmlFor="">Create Bet</label> || 
+            <label className="btn" htmlFor="">Bet History</label><br /> <br />
+            {isShown && (
+                <div>
+                    Description: <input
+                        type="text"
+                        placeholder="Bet Description"
+                        name="description"
+                        onChange={handleChange}
+                        value={input.description}
+                    /><br /><br />
+                    Amount: <input
+                        type="text"
+                        onKeyPress={validate}
+                        placeholder="Enter Amount (₦)"
+                        name="amount"
+                        onChange={handleNumChange}
+                        value={new Intl.NumberFormat('en-NG', {
+                        }).format(finalAmount)}
+                    /><br /><br />
+                    Due Date/Time: <input
+                        type="date"
+                        name="time"
+                        onChange={handleChange}
+                        value={input.time}
+                    /><br /><br />
+                    <button onClick={(e) => handleSubmit(e)} className="btn">Create Bet</button> <br /> <br />
+                </div>
+            )}
+            {isShown && <Box />}
+            
             <button onClick={(e) => handleClick()} className="btn">Logout</button>
         </div>
     );

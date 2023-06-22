@@ -39,7 +39,7 @@ function Send({ history }) {
     } catch (error) {
       if (error.response.status === 400) {
         setError(error.response.data.message);
-        setStatus("CONFIRM");;
+        setStatus("LOGIN");;
       }
       return setError(error.response.data.error);
     }
@@ -54,7 +54,7 @@ function Send({ history }) {
         {error && <span>{error}</span>}
         <br />
         <p>
-        {status === "CONFIRM" && <Link to="/confirm">Confirm Account</Link>}
+        {status === "LOGIN" && <Link to="/">Register/Login</Link>}
         </p>
         Email:{" "}
         <input

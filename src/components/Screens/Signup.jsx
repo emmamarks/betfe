@@ -46,7 +46,9 @@ function Signup({ history }) {
       setAccountName(response.data.data.account_name);
       const bank = banks.find((data) => data.id === response.data.data.bank_id);
       setBank(bank);
-    } catch (error) {}
+    } catch (error) {
+      setError("Enter a valid account number")
+    }
   }
 
   function handleChange(event) {

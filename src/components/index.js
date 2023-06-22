@@ -7,3 +7,4 @@ export { default as Forgotpwd } from "./Screens/Forgotpwd";
 export { default as Home } from "./Screens/Home";
 export { default as Created } from "./Screens/Bets";
 export { default as Profile } from "./Screens/Profile";
+export { default as Details } from "./Screens/Details";
