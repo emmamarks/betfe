@@ -3,7 +3,7 @@ import { Link, withRouter, useParams  } from "react-router-dom";
 import axios from 'axios';
 
 function Details ({ history }) {
-    const params = useParams();
+    const {_id} = useParams();
     const [predictions, setPredictions] = useState([]);
     const [error, setError] = useState("");
 
@@ -20,12 +20,12 @@ function Details ({ history }) {
         }
     }
 
-    const getPredictions = async (_id) => {
+    const getPredictions = async () => {
         try {
-            const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/details/${params._id}`, config)
+            const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/details/${_id}`, config)
 
             setPredictions(response.data.result)
-        
+            console.log(response.data.result);
 
         } catch (error) {
             // localStorage.removeItem('authToken');
@@ -33,7 +33,15 @@ function Details ({ history }) {
         }        
     }
 
-    
+    // const fetchD = () =>{
+    //     fetch(`http://acnhapi.com/doc/${id}`)
+    //         .then (res => res.json())
+    //         .then (data => setPredictions(data))
+    // }    
+
+    // useEffect(() => {
+    //     setPredictions()
+    // }, [])
 
     return(
         <div>
@@ -41,14 +49,14 @@ function Details ({ history }) {
                 Betty Cash
             </h1>
             <br />
-            {predictions.map((prediction, index) =>{
+            {/* {predictions.map((prediction, index) =>{
                 return(
                     <div key={index}>
                         <Link to= "/profile">{prediction.author.username}</Link>
                         | {prediction.description} | {prediction.amount} 
                     </div>
                 )
-            })}
+            })} */}
         </div>
     )
 }
