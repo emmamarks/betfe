@@ -18,7 +18,7 @@ function App() {
           <Route path = "/home" exact component = { () => <Home />}/>
           <Route path = "/created" exact component = { () => <Created />}/>
           <Route path = "/profile" exact component = { () => <Profile />}/>
-          <Route path = "/details" exact component = { () => <Details />}/>
+          <Route path = "/details/:_id" exact component = { () => <Details />}/>
         </Switch>
       </Router>
     </div>
