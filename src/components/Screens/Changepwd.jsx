@@ -95,7 +95,8 @@ function Create({ history }) {
 
   async function handleClick(event) {
     event.preventDefault();
-
+    setSuccess("")
+    setError("")
     if (input.resetOtp && input.password && input.confirmPassword) {
       if (typeof input.password !== "undefined") {
         if (input.password.length < 5) {
