@@ -145,7 +145,7 @@ function Home({ history }) {
             </h1>
             <br />
             {error && <span>{error}</span>}<br /> <br />
-            Welcome <Link>{username}</Link><br /> <br />
+            Welcome <Link to="#">{username}</Link><br /> <br />
             <form onSubmit={(e) => handleBet(e)}>
                 Bet Code: <input type="text" placeholder ="Caps Only"
                 name="ticket" id="ticket" value={input.ticket} onChange={handleChange} /><br /><br />
