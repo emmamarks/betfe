@@ -6,6 +6,8 @@ function Details ({ history }) {
     const {_id} = useParams();
     const [predictions, setPredictions] = useState([]);
     const [error, setError] = useState("");
+    const [description, setDescription] = useState('');
+    const [ticket, setTicket] = useState('');
 
     useEffect(() => {
         getPredictions()
@@ -25,7 +27,8 @@ function Details ({ history }) {
             const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/details/${_id}`, config)
 
             setPredictions(response.data.result)
-            console.log(response.data.result);
+            setDescription(response.data.result.description)
+            setTicket(response.data.result.ticket)
 
         } catch (error) {
             // localStorage.removeItem('authToken');
@@ -33,30 +36,13 @@ function Details ({ history }) {
         }        
     }
 
-    // const fetchD = () =>{
-    //     fetch(`http://acnhapi.com/doc/${id}`)
-    //         .then (res => res.json())
-    //         .then (data => setPredictions(data))
-    // }    
-
-    // useEffect(() => {
-    //     setPredictions()
-    // }, [])
-
     return(
         <div>
             <h1>
                 Betty Cash
             </h1>
             <br />
-            {/* {predictions.map((prediction, index) =>{
-                return(
-                    <div key={index}>
-                        <Link to= "/profile">{prediction.author.username}</Link>
-                        | {prediction.description} | {prediction.amount} 
-                    </div>
-                )
-            })} */}
+            {description}   ||  {ticket}
         </div>
     )
 }
