@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react";
 import { withRouter } from "react-router-dom";
 import axios from "axios";
-import { Autocomplete, TextField } from "@mui/material";
 
 function Signup({ history }) {
   useEffect(() => {
@@ -23,7 +22,7 @@ function Signup({ history }) {
     email: localStorage.getItem("email"),
     username: "",
     password: "",
-    confirmPassword: "",
+    confirmPassword:'',
   });
 
   const [error, setError] = useState("");
@@ -48,7 +47,7 @@ function Signup({ history }) {
       const bank = banks.find((data) => data.id === response.data.data.bank_id);
       setBank(bank);
     } catch (error) {
-      setError("Enter a valid account number");
+      setError("Enter a valid account number")
     }
   }
 
@@ -61,7 +60,6 @@ function Signup({ history }) {
         [name]: value,
       };
     });
-    if (name === "bank") setAccountName("");
   }
 
   useEffect(() => {
@@ -78,28 +76,23 @@ function Signup({ history }) {
   async function handleClick(event) {
     event.preventDefault();
 
-    if (
-      input.bank &&
-      input.account &&
-      input.username &&
-      input.password &&
-      input.confirmPassword
-    ) {
-      if (typeof input.username !== "undefined") {
+    if (input.bank && input.account && input.username && input.password && input.confirmPassword) {
+
+      if(typeof input.username !== 'undefined'){
         const re = /^\S*$/;
-        if (input.username.length < 5 || !re.test(input.username)) {
-          return setError("Username must contain at least 5 characters");
+        if(input.username.length < 5 || !re.test(input.username)){
+            return setError("Username must contain at least 5 characters")
         }
       }
 
-      if (typeof input.password !== "undefined") {
-        if (input.password.length < 5) {
-          return setError("Password must contain at least 6 characters");
-        }
+      if(typeof input.password !== 'undefined'){
+          if(input.password.length < 5){
+              return setError("Password must contain at least 6 characters")
+          }
       }
 
-      if (input.password !== input.confirmPassword) {
-        return setError("Passwords do not match");
+      if(input.password !== input.confirmPassword){
+        return setError("Passwords do not match")
       }
 
       try {
@@ -111,14 +104,14 @@ function Signup({ history }) {
           accountName,
           bankName: bank.name,
           username: input.username,
-          password: input.password,
+          password: input.password
         };
 
         const resp = await axios.post(
           `${process.env.REACT_APP_BACKEND_URL}/signup`,
           registered
         );
-        localStorage.setItem("authToken", resp.data.token);
+        localStorage.setItem('authToken', resp.data.token)
         history.push("/home");
       } catch (error) {
         setError(error.response.data.error);
@@ -146,15 +139,19 @@ function Signup({ history }) {
     }
   }
 
+  const [text, setText] = useState('');
+  const onChange = (event) => {
+    setText(event.target.value);
+  }
+
   return (
     <div>
       <form>
-        <h1>Betty Cash</h1>
+          <h1>Betty Cash</h1>
         {error && <span>{error}</span>}
-        <br />
-        <br />
+        <br /><br />
         Bank:{" "}
-        {/* <input type="list"
+         {/* <input type="list"
           list="bank"
           name="bank"
           autoComplete="on"
@@ -172,45 +169,12 @@ function Signup({ history }) {
             ))}
           </select> 
         </datalist> */}
-        {/* <select autocomplete="on" name="bank" onChange={handleChange}>
+        <select autocomplete="on" name="bank" onChange={handleChange}>
           {banks.map((bank) => (
             <option value={bank.code}>{bank.name}</option>
           ))}
-        </select> */}
-        <Autocomplete
-          id="combo-box-demo"
-          options={banks}
-          name="bank"
-          sx={{
-            width: 400,
-            margin: "auto",
-            marginTop: "5px",
-            marginBottom: "20px",
-          }}
-          onChange={(e, value) =>
-            setInput((prevState) => ({
-              ...prevState,
-              bank: value?.code || "",
-              account: "",
-            }))
-          }
-          getOptionLabel={(option) => option.name}
-          renderOption={(props, option) => (
-            <li {...props} style={{ margin: "auto", marginLeft: "0px" }}>
-              {option.name}
-            </li>
-          )}
-          renderInput={(params) => (
-            <TextField
-              {...params}
-              label="Select your bank"
-              inputProps={{
-                ...params.inputProps,
-              }}
-              name="bank"
-            />
-          )}
-        />
+        </select>
+        <br /><br />
         Account Number:{" "}
         <input
           type="text"
@@ -221,18 +185,14 @@ function Signup({ history }) {
         />
         <br /> <br />
         Account Name: {accountName} <br /> <br />
-        Username:{" "}
-        <input
+        Username: <input
           type="text"
           placeholder="Choose Username"
           name="username"
           onChange={handleChange}
           value={input.username}
-        />
-        <br />
-        <br />
-        Password:
-        <input
+        /><br /><br />
+        Password:<input
           type="password"
           placeholder="Enter password"
           name="password"
@@ -240,8 +200,7 @@ function Signup({ history }) {
           value={input.password}
         />
         <br /> <br />
-        Confirm Password:{" "}
-        <input
+        Confirm Password: <input
           type="password"
           placeholder="Confirm Password"
           name="confirmPassword"
@@ -254,8 +213,12 @@ function Signup({ history }) {
         </button>
       </form>{" "}
       <br />
-      <div></div>
-      <small>© Jacob 2023</small>
+      <div>
+        
+      </div>
+      <small>
+        © Jacob 2023
+      </small>
     </div>
   );
 }

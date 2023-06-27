@@ -1,6 +1,6 @@
-import { useState } from "react";
+import { useState } from 'react';
 import { Link, withRouter } from "react-router-dom";
-import axios from "axios";
+import axios from 'axios';
 
 function Create({ history }) {
   const [error, setError] = useState("");
@@ -95,19 +95,18 @@ function Create({ history }) {
 
   async function handleClick(event) {
     event.preventDefault();
-    setSuccess("")
-    setError("")
-    if (input.resetOtp && input.password && input.confirmPassword) {
-      if (typeof input.password !== "undefined") {
-        if (input.password.length < 5) {
-          return setError("Password must contain at least 6 characters");
+
+    if(input.resetOtp && input.password && input.confirmPassword){
+      if(typeof input.password !== 'undefined'){
+        if(input.password.length < 5){
+            return setError("Password must contain at least 6 characters")
         }
       }
-
-      if (input.password !== input.confirmPassword) {
-        return setError("Passwords do not match");
+  
+      if(input.password !== input.confirmPassword){
+        return setError("Passwords do not match")
       }
-
+  
       if (input.resetOtp) {
         if (typeof input.resetOtp !== "undefined") {
           const re = /^\d{4}$/;
@@ -119,8 +118,8 @@ function Create({ history }) {
       } else {
         return setError("enter otp sent to mail");
       }
-    } else {
-      return setError("Please enter all fields");
+    }else{
+      return setError("Please enter all fields")
     }
   }
 
@@ -140,11 +139,12 @@ function Create({ history }) {
         </div>
       )}
       {success && <span>{success}</span>}
-      <p>{status === "LOGIN" && <Link to="/">Login</Link>}</p>
+      <p>
+        {status === "LOGIN" && <Link to="/">Login</Link>}
+      </p>
       {showSubmitBtn && (
         <>
-          New Password:
-          <input
+            New Password:<input
             type="password"
             placeholder="Enter New Password"
             name="password"
@@ -161,16 +161,13 @@ function Create({ history }) {
             value={input.confirmPassword}
           />
           <br /> <br />
-          Enter OTP:
-          <input
+          Enter OTP:<input
             type="text"
             placeholder="Enter OTP"
             name="resetOtp"
             value={input.resetOtp}
             onChange={handleChange}
-          />
-          <br />
-          <br />
+          /><br /><br />
           <button onClick={(e) => handleClick(e)} className="btn">
             Change Password
           </button>
@@ -180,4 +177,4 @@ function Create({ history }) {
   );
 }
 
-export default withRouter(Create);
+export default withRouter (Create)

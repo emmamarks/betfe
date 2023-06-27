@@ -25,8 +25,7 @@ function Details ({ history }) {
 
     const getPredictions = async () => {
         try {
-            const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/details/${_id}`, config)
-
+            const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/tickets/${_id}`, config)
             setPredictions(response.data.result)
             setDescription(response.data.result.description)
             setTicket(response.data.result.ticket)
@@ -35,6 +34,9 @@ function Details ({ history }) {
             // localStorage.removeItem('authToken');
             // history.push('/')
         }        
+    }
+    async function handleSubmit(event) {
+
     }
 
     return(
@@ -45,9 +47,12 @@ function Details ({ history }) {
                 </h1>
             </Link>
             <br />
-            {description}   ||  {ticket}   ||   ₦{amount}
+            Bet Description: {description}<br /> <br />
+            Ticket: {ticket}<br /> <br />
+            Amount: ₦{amount}<br /> <br />
+            <Link to = '/home'><button className="btn">Go Back</button></Link>
+            <button onClick={(e) => handleSubmit(e)} className="btn">Accept Bet</button>
         </div>
     )
 }
-
 export default withRouter (Details)
