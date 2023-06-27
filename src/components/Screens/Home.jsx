@@ -130,7 +130,13 @@ function Home({ history }) {
     }
 
     async function showHistory(event) {
-        
+        try {
+            const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/home`, config)
+            setId(response.data._id)
+            history.push(`/profile/${response.data._id}`)
+        } catch (error) {
+            setError(error.response.data.error);
+        }
     }
 
     async function getUser(event) {
@@ -141,7 +147,6 @@ function Home({ history }) {
         } catch (error) {
             setError(error.response.data.error);
         }
-        
     }
 
     function handleClick(){
@@ -193,7 +198,6 @@ function Home({ history }) {
                 </div>
             )}
             {isShown && <Box />}
-            
             <button onClick={(e) => handleClick()} className="btn">Logout</button>
         </div>
     );

@@ -11,7 +11,6 @@ function Created ({ history }) {
     }, [])
 
     const authToken = localStorage.getItem('authToken');
-
     const config = {
         headers:{
             'Content-Type': 'application/json',
@@ -22,18 +21,13 @@ function Created ({ history }) {
     const getPredictions = async () => {
         try {
             const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/created`, config)
-
             setPredictions(response.data.result)
-        
-
         } catch (error) {
             localStorage.removeItem('authToken');
             history.push('/')
         }        
     }
-
     
-
     return(
         <div>
             <h1>

@@ -9,13 +9,13 @@ function Details ({ history }) {
     const [description, setDescription] = useState('');
     const [ticket, setTicket] = useState('');
     const [amount, setAmount] = useState('');
+    const [time, setTime] = useState('');
 
     useEffect(() => {
         getPredictions()
     }, [])
 
     const authToken = localStorage.getItem('authToken');
-
     const config = {
         headers:{
             'Content-Type': 'application/json',
@@ -26,14 +26,13 @@ function Details ({ history }) {
     const getPredictions = async () => {
         try {
             const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/details/${_id}`, config)
-
-            setPredictions(response.data.result)
             setDescription(response.data.result.description)
             setTicket(response.data.result.ticket)
             setAmount(response.data.result.amount)
+            setTime(response.data.result.time)
         } catch (error) {
-            // localStorage.removeItem('authToken');
-            // history.push('/')
+            localStorage.removeItem('authToken');
+            history.push('/')
         }        
     }
 
@@ -45,7 +44,7 @@ function Details ({ history }) {
                 </h1>
             </Link>
             <br />
-            {description}   ||  {ticket}   ||   ₦{amount}
+            {description}   ||  {ticket}   ||   ₦{amount}   ||   {time}
         </div>
     )
 }

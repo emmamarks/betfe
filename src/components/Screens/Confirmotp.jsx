@@ -68,7 +68,6 @@ function Confirm({ history }) {
         `${process.env.REACT_APP_BACKEND_URL}/resend`,
         { email: user.email }
       );
-
       if (response.status === 200) {
         setSuccess(response.data.message);
         setShowSubmitBtn(true);
@@ -84,7 +83,6 @@ function Confirm({ history }) {
 
   function handleChange(event) {
     const { name, value } = event.target;
-
     setInput((prevInput) => {
       return {
         ...prevInput,
@@ -95,7 +93,6 @@ function Confirm({ history }) {
 
   async function handleClick(event) {
     event.preventDefault();
-
     if (input.otp) {
       if (typeof input.otp !== "undefined") {
         const re = /^\d{4}$/;

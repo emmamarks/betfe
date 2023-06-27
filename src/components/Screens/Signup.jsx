@@ -123,7 +123,6 @@ function Signup({ history }) {
 
   function validate(evt) {
     var theEvent = evt || window.event;
-
     // Handle paste
     if (theEvent.type === "paste") {
       key = theEvent.clipboardData.getData("text/plain");
@@ -151,24 +150,6 @@ function Signup({ history }) {
         {error && <span>{error}</span>}
         <br /><br />
         Bank:{" "}
-         {/* <input type="list"
-          list="bank"
-          name="bank"
-          autoComplete="on"
-          placeholder="Choose Bank"
-          value={text} onChange={onChange}
-        /><br /><br /> */}
-        {/* <datalist
-          id="bank"
-          name="bank"
-          onChange={onChange}
-        >
-          <select autocomplete="on" name="bank" onChange={handleChange}>
-            {banks.map((bank) => (
-              <option value={bank.name}>{bank.name}</option>
-            ))}
-          </select> 
-        </datalist> */}
         <select autocomplete="on" name="bank" onChange={handleChange}>
           {banks.map((bank) => (
             <option value={bank.code}>{bank.name}</option>

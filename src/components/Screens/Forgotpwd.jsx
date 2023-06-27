@@ -14,7 +14,6 @@ function Exam({ history }){
 
     function handleChange(event) {
         const{name, value} = event.target;
-
         setInput(prevInput =>{
             return{
                 ...prevInput,
@@ -27,7 +26,6 @@ function Exam({ history }){
         e.preventDefault();
 
         if(input.email){
-
             if(typeof input.email !== 'undefined'){
                 const re = /\S+@\S+\.\S+/;
                 if(!re.test(input.email)){
@@ -39,7 +37,6 @@ function Exam({ history }){
                     email:input.email
                 }
                 await axios.post(`${process.env.REACT_APP_BACKEND_URL}/forgot`, registered)
-                //localStorage.setItem('email')
                 history.push('/reset')
             } catch (error) {
                 if (error.response.status === 400) {

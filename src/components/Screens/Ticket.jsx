@@ -9,13 +9,13 @@ function Details ({ history }) {
     const [description, setDescription] = useState('');
     const [ticket, setTicket] = useState('');
     const [amount, setAmount] = useState('');
-
+    const [time, setDate] = useState('');
+    
     useEffect(() => {
         getPredictions()
     }, [])
 
     const authToken = localStorage.getItem('authToken');
-
     const config = {
         headers:{
             'Content-Type': 'application/json',
@@ -30,11 +30,13 @@ function Details ({ history }) {
             setDescription(response.data.result.description)
             setTicket(response.data.result.ticket)
             setAmount(response.data.result.amount)
+            setDate(response.data.result.time)
         } catch (error) {
-            // localStorage.removeItem('authToken');
-            // history.push('/')
+            localStorage.removeItem('authToken');
+            history.push('/')
         }        
     }
+    
     async function handleSubmit(event) {
 
     }
@@ -50,6 +52,7 @@ function Details ({ history }) {
             Bet Description: {description}<br /> <br />
             Ticket: {ticket}<br /> <br />
             Amount: ₦{amount}<br /> <br />
+            Due Date: {time}<br /> <br />
             <Link to = '/home'><button className="btn">Go Back</button></Link>
             <button onClick={(e) => handleSubmit(e)} className="btn">Accept Bet</button>
         </div>

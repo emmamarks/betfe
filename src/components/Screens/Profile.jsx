@@ -9,7 +9,6 @@ function Profile ({ history }) {
     useEffect(() => {
         getPredictions()
     }, [])
-
     const authToken = localStorage.getItem('authToken');
 
     const config = {
@@ -22,13 +21,12 @@ function Profile ({ history }) {
     const getPredictions = async () => {
         try {
             const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/profile/${params.author}`, config)
-            
             console.log(response.data.result);
             setPredictions(response.data.result)
 
         } catch (error) {
-            // localStorage.removeItem('authToken');
-            // history.push('/')
+            localStorage.removeItem('authToken');
+            history.push('/')
         }        
     }
 
