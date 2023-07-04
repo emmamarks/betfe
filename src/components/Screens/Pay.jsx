@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-//import "./Paystack.css";
 import { Link, withRouter, useParams } from "react-router-dom";
 import { usePaystackPayment } from "react-paystack";
 import axios from 'axios';
@@ -31,17 +30,13 @@ const Paystack = ({ history }) => {
 	const onClose = () => {
 		alert("Opps, Payment not completed");
 	};
-
-	
-
 	const handleClick = (e) => {
 
 		// Trigger Payment Gateway on Form Submit
 		initializePayment(onSuccess, onClose);
 	};
 
-
-  const authToken = localStorage.getItem('authToken');
+	const authToken = localStorage.getItem('authToken');
   const confi = {
     headers:{
         'Content-Type': 'application/json',
