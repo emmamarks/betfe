@@ -13,8 +13,6 @@ const Paystack = ({ history }) => {
   const params = useParams();
 
   const [config, setConfig] = useState({
-		// email: "decgds22@gmail.com",
-		// amount: "345322",
 		email: localStorage.getItem("email"),
 		amount: localStorage.getItem("amount"),
 		// publicKey: process.env.REACT_APP_PAYSTACK_PUBLIC_KEY,
@@ -27,6 +25,8 @@ const Paystack = ({ history }) => {
 	// Callback if transaction is successful
 	const onSuccess = () => {
 		alert("Payment Successful, check your email for confirmation");
+		localStorage.removeItem('email');
+		localStorage.removeItem('amount');
 	};
 
 	// Callback if payment gateway is closed
@@ -36,8 +36,6 @@ const Paystack = ({ history }) => {
 	const handleClick = (e) => {
 		// Trigger Payment Gateway on Form Submit
 		initializePayment(onSuccess, onClose);
-		localStorage.removeItem('email');
-		localStorage.removeItem('amount');
 	};
 
 	const authToken = localStorage.getItem('authToken');
