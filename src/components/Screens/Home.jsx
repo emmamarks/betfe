@@ -98,7 +98,7 @@ function Home({ history }) {
         try {
             const registered = {
                 description: input.description,
-                amount: finalAmount,
+                amount: finalAmount * 100,
                 time: input.time
             };
             const res = await axios.post(
@@ -162,7 +162,7 @@ function Home({ history }) {
 
     useEffect(() => {
         const withdrawal = 0.95 * (finalAmount * 2)
-        setWithdrawable(withdrawal)
+        setWithdrawable(withdrawal.toFixed(2))
     }, [finalAmount])
 
     return(
@@ -172,7 +172,7 @@ function Home({ history }) {
             </h1>
             <br />
             {error && <span>{error}</span>}<br /> <br />
-            Welcome <Link onClick = {getUser}>{username}</Link><br /> <br />{email}
+            Welcome <Link onClick = {getUser}>{username}</Link><br /> <br />
             <form onSubmit={(e) => searchTicket(e)}>
                 Bet Code: <input type="text" placeholder ="Caps Only"
                 name="ticket" id="ticket" value={input.ticket} onChange={handleChange} />

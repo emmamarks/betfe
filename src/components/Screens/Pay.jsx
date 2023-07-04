@@ -4,6 +4,7 @@ import { usePaystackPayment } from "react-paystack";
 import axios from 'axios';
 
 const Paystack = ({ history }) => {
+
   const {_id} = useParams();
   const [description, setDescription] = useState('');
   const [amount, setAmount] = useState('');
@@ -11,11 +12,13 @@ const Paystack = ({ history }) => {
   const [predictions, setPredictions] = useState([]);
   const params = useParams();
 
-	// Setting config object to a state to dynamically capture info from Form
-	const [config, setConfig] = useState({
+  const [config, setConfig] = useState({
+		// email: "decgds22@gmail.com",
+		// amount: "345322",
 		email: localStorage.getItem("email"),
 		amount: localStorage.getItem("amount"),
-		publicKey: "pk_test_c7ed2f7ea919bcddf3828375e170b8a5d49570a3",
+		// publicKey: process.env.REACT_APP_PAYSTACK_PUBLIC_KEY,
+		publicKey: "pk_live_2ca52b3edabd7cf5169058f64aede8d4adce1822"
 	});
 
 	// First initialization of the Library
@@ -31,9 +34,10 @@ const Paystack = ({ history }) => {
 		alert("Opps, Payment not completed");
 	};
 	const handleClick = (e) => {
-
 		// Trigger Payment Gateway on Form Submit
 		initializePayment(onSuccess, onClose);
+		localStorage.removeItem('email');
+		localStorage.removeItem('amount');
 	};
 
 	const authToken = localStorage.getItem('authToken');
@@ -63,7 +67,7 @@ const Paystack = ({ history }) => {
 	return (
 		<>
 			<div className="container">
-				Amount: ₦{amount}<br /> <br />
+				Amount: ₦{amount / 100}<br /> <br />
 				Description: {description}<br /> <br />
 				Email: {email}<br /> <br />
 				<div className="row mt-5">
