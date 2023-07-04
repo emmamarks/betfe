@@ -15,8 +15,7 @@ const Paystack = ({ history }) => {
   const [config, setConfig] = useState({
 		email: localStorage.getItem("email"),
 		amount: localStorage.getItem("amount"),
-		// publicKey: process.env.REACT_APP_PAYSTACK_PUBLIC_KEY,
-		publicKey: "pk_live_2ca52b3edabd7cf5169058f64aede8d4adce1822"
+		publicKey: process.env.REACT_APP_PAYSTACK_PUBLIC_KEY
 	});
 
 	// First initialization of the Library
