@@ -21,7 +21,6 @@ function Profile ({ history }) {
     const getPredictions = async () => {
         try {
             const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/profile/${params.author}`, config)
-            console.log(response.data.result);
             setPredictions(response.data.result)
 
         } catch (error) {
@@ -38,10 +37,11 @@ function Profile ({ history }) {
                 </h1>
             </Link>
             <br />
+            
             {predictions.map((prediction, index) =>{
                 return(
                     <div key={index}>
-                        {prediction.author.username} | {prediction.description} | {prediction.amount} 
+                        {prediction.author.username} | {prediction.description} | {prediction.amount} | {prediction.author.email}
                     </div>
                 )
             })}

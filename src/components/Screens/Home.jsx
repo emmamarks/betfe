@@ -28,7 +28,9 @@ function Home({ history }) {
     })
     const [error, setError] = useState("");
     const [username, setUsername] = useState('');
+    const [email, setEmail] = useState('');
     const [id, setId] = useState('');
+    const [withdrawable, setWithdrawable] = useState('');
     const [finalAmount, setfinalAmount]= useState("");
 
     function handleChange(event) {
@@ -58,6 +60,7 @@ function Home({ history }) {
         try {
             const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/home`, config)
             setUsername(response.data.username)
+            setEmail(response.data.email)
             setId(response.data._id)
         } catch (error) {
             localStorage.removeItem('authToken');
@@ -102,7 +105,9 @@ function Home({ history }) {
                 `${process.env.REACT_APP_BACKEND_URL}/create`,
                 registered, config
             );
-            history.push(`/details/${res.data.data._id}`);
+            localStorage.setItem('email', res.data.data.email);
+            localStorage.setItem('amount', res.data.data.amount);
+            history.push(`/pay/${res.data.data._id}`);
         } catch (error) {
             setError(error.response.data.error);
         }
@@ -155,6 +160,11 @@ function Home({ history }) {
         history.push('/')
     }
 
+    useEffect(() => {
+        const withdrawal = 0.95 * (finalAmount * 2)
+        setWithdrawable(withdrawal)
+    }, [finalAmount])
+
     return(
         <div>
             <h1>
@@ -162,7 +172,7 @@ function Home({ history }) {
             </h1>
             <br />
             {error && <span>{error}</span>}<br /> <br />
-            Welcome <Link onClick = {getUser}>{username}</Link><br /> <br />
+            Welcome <Link onClick = {getUser}>{username}</Link><br /> <br />{email}
             <form onSubmit={(e) => searchTicket(e)}>
                 Bet Code: <input type="text" placeholder ="Caps Only"
                 name="ticket" id="ticket" value={input.ticket} onChange={handleChange} />
@@ -179,7 +189,7 @@ function Home({ history }) {
                         onChange={handleChange}
                         value={input.description}
                     /><br /><br />
-                    Amount: <input
+                    Amount:₦<input
                         type="text"
                         onKeyPress={validate}
                         placeholder="Enter Amount (₦)"
@@ -188,6 +198,7 @@ function Home({ history }) {
                         value={new Intl.NumberFormat('en-NG', {
                         }).format(finalAmount)}
                     /><br /><br />
+                    Withdrawable: <span id='green'>₦{withdrawable}</span> <br /> <br />
                     Due Date/Time: <input
                         type="date"
                         name="time"

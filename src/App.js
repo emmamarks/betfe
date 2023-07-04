@@ -2,7 +2,7 @@ import React from 'react';
 
 import { BrowserRouter as Router, Route, Switch} from 'react-router-dom';
 
-import { Login, Send, Changepwd, Signup, Created, Confirmotp, Forgotpwd, Home, Profile, Details, Ticket } from "./components";
+import { Login, Send, Changepwd, Signup, Created, Confirmotp, Forgotpwd, Home, Profile, Details, Ticket, Pay } from "./components";
 
 function App() {
   return (
@@ -20,6 +20,7 @@ function App() {
           <Route path = "/profile/:author" exact component = { () => <Profile />}/>
           <Route path = "/details/:_id" exact component = { () => <Details />}/>
           <Route path = "/tickets/:_id" exact component = { () => <Ticket />}/>
+          <Route path = "/pay/:_id" exact component = { () => <Pay />}/>
         </Switch>
       </Router>
     </div>
