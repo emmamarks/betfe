@@ -15,17 +15,24 @@ function Details ({ history }) {
     const [config, setConfig] = useState({
 		email: localStorage.getItem("email"),
 		amount: localStorage.getItem("amount"),
-		publicKey: process.env.REACT_APP_PAYSTACK_PUBLIC_KEY,
-		//publicKey: "pk_test_21b3d8241a4c462ac7c90a284ddeb37cdab27b69"
+		//publicKey: process.env.REACT_APP_PAYSTACK_PUBLIC_KEY,
+		publicKey: "pk_test_21b3d8241a4c462ac7c90a284ddeb37cdab27b69"
 	});
 
 	const initializePayment = usePaystackPayment(config);
 
 
 	function onSuccess () {
+        try {
+            axios.post(`${process.env.REACT_APP_BACKEND_URL}/accept`, {
+                email: localStorage.getItem('email'),
+            });
+        } catch (error) {
+			setError(error.response.data.error);            
+        }
 		try {
 			const res = axios.put(
-                `${process.env.REACT_APP_BACKEND_URL}/paid`,
+                `${process.env.REACT_APP_BACKEND_URL}/accepted`,
             );
 		} catch (error) {
 			setError(error.response.data.error);
@@ -65,6 +72,7 @@ function Details ({ history }) {
             setTicket(response.data.result.ticket)
             setAmount(response.data.result.amount)
             setDate(response.data.result.time)
+            localStorage.setItem('amount', response.data.result.amount);
         } catch (error) {
             localStorage.removeItem('authToken');
             history.push('/')

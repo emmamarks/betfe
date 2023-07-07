@@ -62,10 +62,11 @@ function Home({ history }) {
             setUsername(response.data.username)
             setEmail(response.data.email)
             setId(response.data._id)
+            localStorage.setItem('email', response.data.email);
         } catch (error) {
             localStorage.removeItem('authToken');
             history.push('/')
-        }        
+        }
     }
     
     useEffect(() => {
@@ -105,7 +106,6 @@ function Home({ history }) {
                 `${process.env.REACT_APP_BACKEND_URL}/create`,
                 registered, config
             );
-            localStorage.setItem('email', res.data.data.email);
             localStorage.setItem('amount', res.data.data.amount);
             history.push(`/pay/${res.data.data._id}`);
         } catch (error) {
