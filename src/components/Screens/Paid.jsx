@@ -10,6 +10,7 @@ const Paid = ({ history }) => {
 }
 
 =======
+<<<<<<< HEAD
 import React, { useState, useEffect } from "react";
 import { Link, withRouter, useParams } from "react-router-dom";
 import { usePaystackPayment } from "react-paystack";
@@ -20,5 +21,17 @@ const Paid = ({ history }) => {
 
 }
 
+=======
+import React, { useState, useEffect } from "react";
+import { Link, withRouter, useParams } from "react-router-dom";
+import { usePaystackPayment } from "react-paystack";
+import axios from 'axios';
+
+const Paid = ({ history }) => {
+
+
+}
+
+>>>>>>> 67be86bc90a6d90afe4cb1a7bcae895cc9bb5574
 >>>>>>> cc381b892c93892bec67ebf8aef4d74c2bee83ad
 export default Paid
