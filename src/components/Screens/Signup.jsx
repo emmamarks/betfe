@@ -46,7 +46,9 @@ function Signup({ history }) {
       setAccountName(response.data.data.account_name);
       const bank = banks.find((data) => data.id === response.data.data.bank_id);
       setBank(bank);
-    } catch (error) {}
+    } catch (error) {
+      setError("Enter a valid account number")
+    }
   }
 
   function handleChange(event) {
@@ -121,7 +123,6 @@ function Signup({ history }) {
 
   function validate(evt) {
     var theEvent = evt || window.event;
-
     // Handle paste
     if (theEvent.type === "paste") {
       key = theEvent.clipboardData.getData("text/plain");
@@ -149,25 +150,6 @@ function Signup({ history }) {
         {error && <span>{error}</span>}
         <br /><br />
         Bank:{" "}
-         <input type="list"
-          list="bank"
-          name="bank"
-          autoComplete="on"
-          placeholder="Choose Bank"
-          value={text} onChange={onChange}
-        /><br /><br />
-        <datalist
-          id="bank"
-          name="bank"
-          onChange={onChange}
-        >
-          <select autocomplete="on" name="bank" onChange={handleChange}>
-            {banks.map((bank) => (
-              <option value={bank.name}>{bank.name}</option>
-            ))}
-          </select> 
-        </datalist>
-        <br /><br /> 
         <select autocomplete="on" name="bank" onChange={handleChange}>
           {banks.map((bank) => (
             <option value={bank.code}>{bank.name}</option>

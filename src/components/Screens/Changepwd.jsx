@@ -9,8 +9,8 @@ function Create({ history }) {
   const [status, setStatus] = useState("");
   const [showSubmitBtn, setShowSubmitBtn] = useState(true);
   const [input, setInput] = useState({
-    password: "secret",
-    confirmPassword: "secret",
+    password: "",
+    confirmPassword: "",
     resetOtp: "",
   });
 
@@ -68,7 +68,6 @@ function Create({ history }) {
         `${process.env.REACT_APP_BACKEND_URL}/resendotp`,
         { email: user.email }
       );
-
       if (response.status === 200) {
         setSuccess(response.data.message);
         setShowSubmitBtn(true);
@@ -84,7 +83,6 @@ function Create({ history }) {
 
   function handleChange(event) {
     const { name, value } = event.target;
-
     setInput((prevInput) => {
       return {
         ...prevInput,
@@ -95,18 +93,15 @@ function Create({ history }) {
 
   async function handleClick(event) {
     event.preventDefault();
-
     if(input.resetOtp && input.password && input.confirmPassword){
       if(typeof input.password !== 'undefined'){
         if(input.password.length < 5){
             return setError("Password must contain at least 6 characters")
         }
       }
-  
       if(input.password !== input.confirmPassword){
         return setError("Passwords do not match")
       }
-  
       if (input.resetOtp) {
         if (typeof input.resetOtp !== "undefined") {
           const re = /^\d{4}$/;

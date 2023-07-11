@@ -4,22 +4,20 @@ import axios from 'axios';
 
 function Login({ history }) {
  
-    // useEffect(() =>{
-    //     if(localStorage.getItem('authToken')){
-    //         history.push('/home');
-    //     }
-    // }, [ history ]);
+    useEffect(() =>{
+        if(localStorage.getItem('authToken')){
+            history.push('/home');
+        }
+    }, [ history ]);
     
     const [input, setInput] = useState({
         username:'',
         password:''
     })
-
     const [error, setError] = useState('');
 
     function handleChange(event) {
         const{name, value} = event.target;
-
         setInput(prevInput =>{
             return{
                 ...prevInput,
@@ -32,18 +30,13 @@ function Login({ history }) {
         event.preventDefault();
         try {    
             if(input.username && input.password){
-    
                 const registered = {
                     username:input.username,
                     password:input.password
                 }
-                
                 const response = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/login`, registered)
-            
                 localStorage.setItem('authToken', response.data.token);
-                            
                 history.push('/home');
-    
             }else{
                 return setError("Username & Password required")
             }
