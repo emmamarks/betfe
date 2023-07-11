@@ -62,10 +62,11 @@ function Home({ history }) {
             setUsername(response.data.username)
             setEmail(response.data.email)
             setId(response.data._id)
+            localStorage.setItem('email', response.data.email);
         } catch (error) {
             localStorage.removeItem('authToken');
             history.push('/')
-        }        
+        }
     }
     
     useEffect(() => {
@@ -98,14 +99,13 @@ function Home({ history }) {
         try {
             const registered = {
                 description: input.description,
-                amount: finalAmount,
+                amount: finalAmount * 100,
                 time: input.time
             };
             const res = await axios.post(
                 `${process.env.REACT_APP_BACKEND_URL}/create`,
                 registered, config
             );
-            localStorage.setItem('email', res.data.data.email);
             localStorage.setItem('amount', res.data.data.amount);
             history.push(`/pay/${res.data.data._id}`);
         } catch (error) {
@@ -162,7 +162,7 @@ function Home({ history }) {
 
     useEffect(() => {
         const withdrawal = 0.95 * (finalAmount * 2)
-        setWithdrawable(withdrawal)
+        setWithdrawable(withdrawal.toFixed(2))
     }, [finalAmount])
 
     return(
@@ -172,7 +172,7 @@ function Home({ history }) {
             </h1>
             <br />
             {error && <span>{error}</span>}<br /> <br />
-            Welcome <Link onClick = {getUser}>{username}</Link><br /> <br />{email}
+            Welcome <Link onClick = {getUser}>{username}</Link><br /> <br />
             <form onSubmit={(e) => searchTicket(e)}>
                 Bet Code: <input type="text" placeholder ="Caps Only"
                 name="ticket" id="ticket" value={input.ticket} onChange={handleChange} />

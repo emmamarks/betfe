@@ -2,7 +2,9 @@ import React from 'react';
 
 import { BrowserRouter as Router, Route, Switch} from 'react-router-dom';
 
-import { Login, Send, Changepwd, Signup, Created, Confirmotp, Forgotpwd, Home, Profile, Details, Ticket, Pay } from "./components";
+import { Login, Send, Changepwd, Signup, Created, Confirmotp, Trending,
+  Forgotpwd, Home, Profile, Details, Ticket, Pay, Accept, Paid, Hits
+} from "./components";
 
 function App() {
   return (
@@ -21,6 +23,10 @@ function App() {
           <Route path = "/details/:_id" exact component = { () => <Details />}/>
           <Route path = "/tickets/:_id" exact component = { () => <Ticket />}/>
           <Route path = "/pay/:_id" exact component = { () => <Pay />}/>
+          <Route path = "/accept" exact component = { () => <Accept />}/>
+          <Route path = "/paid" exact component = { () => <Paid />}/>
+          <Route path = "/hits" exact component = { () => <Hits />}/>
+          <Route path = "/trending" exact component = { () => <Trending />}/>
         </Switch>
       </Router>
     </div>

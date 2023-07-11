@@ -10,3 +10,7 @@ export { default as Profile } from "./Screens/Profile";
 export { default as Details } from "./Screens/Details";
 export { default as Ticket } from "./Screens/Ticket";
 export { default as Pay } from "./Screens/Pay";
+export { default as Accept } from "./Screens/Accept";
+export { default as Paid } from "./Screens/Paid";
+export { default as Hits } from "./Screens/Hits";
+export { default as Trending } from "./Screens/Trending";

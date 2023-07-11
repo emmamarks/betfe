@@ -8,7 +8,7 @@ const Paystack = ({ history }) => {
   const {_id} = useParams();
   const [description, setDescription] = useState('');
   const [amount, setAmount] = useState('');
-  const [email1, setEmail] = useState('');
+  const [email, setEmail] = useState('');
   const [error, setError] = useState("");
 
   const [config, setConfig] = useState({
@@ -29,12 +29,12 @@ const Paystack = ({ history }) => {
 		} catch (error) {
 			setError(error.response.data.error);
 		}
-		const timeout = setTimeout(() => {
-			// 👇️ redirects to an external URL
-			window.location.replace('http://localhost:3000/');
-		  }, 3000);
+		// const timeout = setTimeout(() => {
+		// 	// 👇️ redirects to an external URL
+		// 	window.location.replace('http://localhost:3000/');
+		//   }, 3000);
 	  
-		return () => clearTimeout(timeout);
+		// return () => clearTimeout(timeout);
 	};
 
 
@@ -62,7 +62,7 @@ const Paystack = ({ history }) => {
       const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/pay/${_id}`, confi)
       setDescription(response.data.result.description)
       setAmount(response.data.result.amount)
-      setEmail(response.data.result.email1)
+      setEmail(response.data.result.email)
     } catch (error) {
       localStorage.removeItem('authToken');
       history.push('/')
@@ -77,6 +77,7 @@ const Paystack = ({ history }) => {
 				</h1>
 				Amount: ₦{amount / 100}<br /> <br />
 				Description: {description}<br /> <br />
+				Email: {email}<br /> <br />
 				<div className="row mt-5">
 					<div className="col-sm-4 mx-auto my-form text-center">							
 							<div>
