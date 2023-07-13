@@ -27,18 +27,27 @@ function Created ({ history }) {
             history.push('/')
         }        
     }
-    
+    // const due = new Date();
+    // const dateString = due.toLocaleDateString('en-NG',{
+    // weekday: "short",
+    // year: "numeric",
+    // month: "long",
+    // day: "numeric"
+    // })
+
     return(
         <div>
-            <h1>
-                Betty Cash
-            </h1>
-            <br />
+            <Link to = '/home'>
+                <h1>
+                    Betty Cash
+                </h1>
+            </Link>
             {predictions.map((prediction, index) =>{
                 return(
                     <div key={index}>
                         <Link to= "/profile">{prediction.author.username}</Link>
-                        | {prediction.description} | {prediction.amount} | {prediction.time}
+                        | {prediction.description} | {prediction.amount} | 
+                        | {prediction.time}
                     </div>
                 )
             })}

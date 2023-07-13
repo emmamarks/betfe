@@ -29,12 +29,12 @@ const Paystack = ({ history }) => {
 		} catch (error) {
 			setError(error.response.data.error);
 		}
-		// const timeout = setTimeout(() => {
-		// 	// 👇️ redirects to an external URL
-		// 	window.location.replace('http://localhost:3000/');
-		//   }, 3000);
+		const timeout = setTimeout(() => {
+			// 👇️ redirects to an external URL
+			window.location.replace('http://localhost:3000/trending');
+		  }, 3000);
 	  
-		// return () => clearTimeout(timeout);
+		return () => clearTimeout(timeout);
 	};
 
 
@@ -78,13 +78,7 @@ const Paystack = ({ history }) => {
 				Amount: ₦{amount / 100}<br /> <br />
 				Description: {description}<br /> <br />
 				Email: {email}<br /> <br />
-				<div className="row mt-5">
-					<div className="col-sm-4 mx-auto my-form text-center">							
-							<div>
-								<button onClick={(e) => handleClick()} className="btn">Pay Now</button>
-							</div>
-					</div>
-				</div>
+				<button onClick={(e) => handleClick()} className="btn">Pay Now</button>
 			</div>
 		</>
 	);

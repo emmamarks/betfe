@@ -10,6 +10,8 @@ const Paystack = ({ history }) => {
   const [amount, setAmount] = useState('');
   const [email1, setEmail] = useState('');
   const [error, setError] = useState("");
+  const [ticket, setTicket] = useState("")
+  const [copySuccess, setCopySuccess] = useState(false)
 
   const [config, setConfig] = useState({
 		email: localStorage.getItem("email"),
@@ -31,7 +33,7 @@ const Paystack = ({ history }) => {
 		}
 		const timeout = setTimeout(() => {
 			// 👇️ redirects to an external URL
-			window.location.replace('http://localhost:3000/');
+			window.location.replace('http://localhost:3000/hits');
 		  }, 3000);
 	  
 		return () => clearTimeout(timeout);
@@ -63,12 +65,16 @@ const Paystack = ({ history }) => {
       setDescription(response.data.result.description)
       setAmount(response.data.result.amount)
       setEmail(response.data.result.email1)
+      setTicket(response.data.result.ticket)
     } catch (error) {
       localStorage.removeItem('authToken');
       history.push('/')
     } 
   }
-
+	const copyToClipBoard = async copyMe => {
+		navigator.clipboard.writeText(copyMe);
+		setCopySuccess('booking code copied');
+	}
 	return (
 		<>
 			<div className="container">
@@ -77,12 +83,24 @@ const Paystack = ({ history }) => {
 				</h1>
 				Amount: ₦{amount / 100}<br /> <br />
 				Description: {description}<br /> <br />
-				<div className="row mt-5">
-					<div className="col-sm-4 mx-auto my-form text-center">							
-							<div>
-								<button onClick={(e) => handleClick()} className="btn">Pay Now</button>
-							</div>
-					</div>
+				Ticket: {ticket} 
+				<button className="btn" onClick={() => copyToClipBoard(ticket)
+					.then(() => {
+						setTimeout(() => {
+							const timeout = setTimeout(() => {
+								setCopySuccess(false)
+							}, 2000);
+							return () => clearTimeout(timeout);
+						})
+					})
+					}>
+					copy
+				</button><br /><br />
+				<div id='green'>
+					{copySuccess}
+				</div>
+				<div>
+					<button onClick={(e) => handleClick()} className="btn">Pay Now</button>
 				</div>
 			</div>
 		</>

@@ -8,7 +8,6 @@ function Home({ history }) {
             history.push('/')
         }
     })
-
     const [isShown, setIsShown] = useState(false);
     const show = event => {
         setIsShown(current => !current);
@@ -19,7 +18,6 @@ function Home({ history }) {
           </div>
         );
     }
-
     const [input, setInput] = useState({
         description: "",
         amount: "",
@@ -42,12 +40,10 @@ function Home({ history }) {
           };
         });
     }
-
     const handleNumChange = (event) => {
         const str = (event.target.value).replace(/\,/g,'');
         setfinalAmount(str);
     }
-
     const authToken = localStorage.getItem('authToken');
     const config = {
         headers:{
@@ -55,7 +51,6 @@ function Home({ history }) {
             Authorization: `Bearer ${authToken}`
         }
     }
-
     const getUserProfile = async () => {
         try {
             const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/home`, config)
@@ -68,11 +63,9 @@ function Home({ history }) {
             history.push('/')
         }
     }
-    
     useEffect(() => {
         getUserProfile()
     }, [])
-
     function validate(evt) {
         var theEvent = evt || window.event;
         // Handle paste
@@ -89,7 +82,6 @@ function Home({ history }) {
           if (theEvent.preventDefault) theEvent.preventDefault();
         }
     }
-
     async function handleSubmit(event) {
         event.preventDefault();
         if (input.description && finalAmount && input.time) {
@@ -112,28 +104,18 @@ function Home({ history }) {
             setError(error.response.data.error);
         }
     }
-
     async function searchTicket(event){
         event.preventDefault();
         if (input.ticket) {
             const res = await axios.post(
                 `${process.env.REACT_APP_BACKEND_URL}/ticket`,
-                { ticket: input.ticket}
+                { ticket: input.ticket}, config
             )
             history.push(`/tickets/${res.data.data._id}`);
         } else {
             return setError("Enter Valid Bet Code");
         }
-        try {
-            await axios.post(
-                `${process.env.REACT_APP_BACKEND_URL}/ticket`,
-                { ticket: input.ticket }, config
-            );
-        } catch (error) {
-            setError(error.response.data.error);
-        }
     }
-
     async function showHistory(event) {
         try {
             const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/home`, config)
@@ -143,7 +125,6 @@ function Home({ history }) {
             setError(error.response.data.error);
         }
     }
-
     async function getUser(event) {
         try {
             const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/home`, config)
@@ -153,17 +134,19 @@ function Home({ history }) {
             setError(error.response.data.error);
         }
     }
-
     function handleClick(){
         localStorage.removeItem('authToken');
         localStorage.removeItem('email');
+        localStorage.removeItem('amount');
         history.push('/')
     }
-
     useEffect(() => {
         const withdrawal = 0.95 * (finalAmount * 2)
         setWithdrawable(withdrawal.toFixed(2))
     }, [finalAmount])
+    function showBets(){
+        history.push('/hits')
+    }
 
     return(
         <div>
@@ -179,7 +162,8 @@ function Home({ history }) {
                 <button type="submit" className="btn">View Bet</button>
             </form><br />
             <label onClick={show} className="btn" htmlFor="">Create Bet</label> || 
-            <label onClick={showHistory} className="btn" htmlFor="">Bet History</label><br /> <br />
+            <label onClick={showBets} className="btn">View Bets</label> || 
+            <label onClick={showHistory} className="btn">Bet History</label><br /> <br />
             {isShown && (
                 <div>
                     Description: <input

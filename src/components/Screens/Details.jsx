@@ -4,12 +4,11 @@ import axios from 'axios';
 
 function Details ({ history }) {
     const {_id} = useParams();
-    const [predictions, setPredictions] = useState([]);
-    const [error, setError] = useState("");
     const [description, setDescription] = useState('');
     const [ticket, setTicket] = useState('');
     const [amount, setAmount] = useState('');
     const [time, setTime] = useState('');
+    const [copySuccess, setCopySuccess] = useState(false)
 
     useEffect(() => {
         getPredictions()
@@ -33,9 +32,13 @@ function Details ({ history }) {
         } catch (error) {
             localStorage.removeItem('authToken');
             history.push('/')
-        }        
+        } 
+      
     }
-
+    const copyToClipBoard = async copyMe => {
+        navigator.clipboard.writeText(copyMe);
+        setCopySuccess('booking code copied');
+    }
     return(
         <div>
             <Link to = '/home'>
@@ -43,8 +46,25 @@ function Details ({ history }) {
                     Betty Cash
                 </h1>
             </Link>
-            <br />
-            {description}   ||  {ticket}   ||   ₦{amount}   ||   {time}
+            Description: {description}<br /> <br />
+            Amount: ₦{amount}<br /> <br />
+            Due Date: {time} <br /> <br />
+            Booking: {ticket}
+            <button className="btn" onClick={() => copyToClipBoard(ticket)
+                .then(() => {
+                    setTimeout(() => {
+                        const timeout = setTimeout(() => {
+                            setCopySuccess(false)
+                        }, 2000);
+                        return () => clearTimeout(timeout);
+                    })
+                })
+            }>
+                copy
+            </button><br /><br />
+            <div id='green'>
+                {copySuccess}
+            </div>
         </div>
     )
 }
